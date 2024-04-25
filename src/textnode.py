@@ -13,9 +13,6 @@ class TextNode:
 		self.text_type = text_type
 		self.url = url
 
-		print(f" --TEST-- {self.text}")
-		return self
-
 	def __eq__(self, value) -> bool:
 		text_same = self.text == value.text
 		text_type_same = self.text_type == value.text_type

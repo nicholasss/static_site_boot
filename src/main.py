@@ -1,8 +1,14 @@
 from textnode import TextNode
 
 
-print("Hello World")
+def main():
+	print("Hello World")
 
-test_node = TextNode("This is a text node", "bold", "https://www.boot.dev")
+	test_node = TextNode("This is a text node", "bold", "https://www.boot.dev")
 
-print(test_node)
+	print(test_node)
+
+
+if __name__ == "__main__":
+	main()
+
