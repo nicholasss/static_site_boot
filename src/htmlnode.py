@@ -15,11 +15,18 @@ class HTMLNode:
 		#TODO: need to test this
   
 		html = ""
-		for prop, value in self.props:
-			html += f"{prop}=\"{value}\""
 
-			if self.props[1] != None:
+		if self.props:
+			prop_count = len(self.props)
+		else:
+			return html
+
+		for key, value in self.props.items():
+			html += f"{key}=\"{value}\""
+
+			if prop_count > 1:
 				html += " "
+				prop_count -= 1
 		
 		return html
 
@@ -28,5 +35,10 @@ class HTMLNode:
 
 		tag = self.tag
 		value = self.value
+		children = self.children
 
-		return f"<{tag}>{value}</{tag}>"
+		props = self.props_to_html()
+		if len(props) > 0:
+			props = " " + props
+
+		return f"<{tag}{props}>{value}</{tag}>"
