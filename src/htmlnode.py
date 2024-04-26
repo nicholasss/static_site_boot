@@ -12,7 +12,7 @@ class HTMLNode:
 		raise NotImplementedError
 	
 	def props_to_html(self) -> str:
-		#TODO: need to test this
+		#TODO need to test this
   
 		html = ""
 
@@ -31,7 +31,7 @@ class HTMLNode:
 		return html
 
 	def __repr__(self) -> str:
-		#TODO: need to test this
+		#TODO need to test this
 
 		tag = self.tag
 		value = self.value
@@ -40,5 +40,7 @@ class HTMLNode:
 		props = self.props_to_html()
 		if len(props) > 0:
 			props = " " + props
+
+		#TODO children with newlines and tab logic
 
 		return f"<{tag}{props}>{value}</{tag}>"
