@@ -3,7 +3,7 @@ import unittest
 from htmlnode import HTMLNode
 
 
-class TestHTMLtNode(unittest.TestCase):
+class TestHTMLNode(unittest.TestCase):
 	def test_props(self):
 		node1 = HTMLNode("p", "This is a sample paragraph.", props={"href": "https://www.google.com"})
 		
