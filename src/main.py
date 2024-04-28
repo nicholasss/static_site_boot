@@ -7,7 +7,7 @@ def main():
 
 	print(test_textnode)
 
-	test_htmlnode = HTMLNode("p", "This is a sample paragraph.", props={"href": "https://www.google.com", "target": "_blank"})
+	test_htmlnode = HTMLNode("p", "This is a sample paragraph.", props={"href": "https://www.google.com"})
 	print(test_htmlnode)
 
 	print("\n")

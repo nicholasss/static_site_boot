@@ -1,8 +1,10 @@
 import unittest
 
-from textnode import TextNode
+from htmlnode import HTMLNode
 
 
-class TestTextNode(unittest.TestCase):
+class TestHTMLtNode(unittest.TestCase):
 	def test_props(self):
-		raise NotImplementedError
+		node1 = HTMLNode("p", "This is a sample paragraph.", props={"href": "https://www.google.com"})
+		
+		self.assertEqual(node1.props_to_html(), 'href="https://www.google.com"')

@@ -9,10 +9,22 @@ class HTMLNode:
 		self.props = props
 
 	def to_html(self):
-		raise NotImplementedError
+		tag = self.tag
+		value = self.value
+
+		children = self.children
+		if children is None:
+			children = ""
+
+		props = self.props_to_html()
+		if len(props) > 0:
+			props = " " + props
+
+		# print(f"--children-- {type(children)} child type of {tag}")
+  
+		return f"<{tag}{props}>{value}{children}</{tag}>"
 	
 	def props_to_html(self) -> str:
-		#TODO need to test this
   
 		html = ""
 
@@ -29,18 +41,6 @@ class HTMLNode:
 				prop_count -= 1
 		
 		return html
-
+	
 	def __repr__(self) -> str:
-		#TODO need to test this
-
-		tag = self.tag
-		value = self.value
-		children = self.children
-
-		props = self.props_to_html()
-		if len(props) > 0:
-			props = " " + props
-
-		#TODO children with newlines and tab logic
-
-		return f"<{tag}{props}>{value}</{tag}>"
+		return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
