@@ -7,7 +7,6 @@ class TestLeafNode(unittest.TestCase):
 		node1 = LeafNode("p", "This is a paragraph.")
 		node2 = LeafNode("a", "Click me!", {"href": "https://www.apple.com"})
 
-		print(node2.to_html())
 
 		self.assertEqual(node1.to_html(), "<p>This is a paragraph.</p>")
 		self.assertEqual(node2.props_to_html(), 'href="https://www.apple.com"')
