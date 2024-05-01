@@ -1,5 +1,6 @@
 from textnode import TextNode
 from htmlnode import HTMLNode
+from leafnode import LeafNode
 
 
 def main():
@@ -14,6 +15,9 @@ def main():
 
 	test2_htmlnode = HTMLNode("h1", "Great News!", children=test_htmlnode)
 	print(test2_htmlnode)
+
+	test1_leafnode = LeafNode("h1", "Subject Header")
+	print(test1_leafnode.to_html())
 
 if __name__ == "__main__":
 	main()
