@@ -11,3 +11,18 @@ class ParentNode(HTMLNode):
 			raise ValueError("No Children provided for ParentNode class")
 
 	#TODO write test file/class and create a few tests to implement against
+	# Assumption is that the Children property is an array
+ 
+	def to_html(self):
+		html_string = ""
+		
+		html_string += f"<{self.tag}>"
+		
+		# recursion
+		for child in self.children:
+			html_string += child.to_html()
+  
+		html_string += f"</{self.tag}>"
+
+		return html_string
+	
