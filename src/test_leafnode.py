@@ -3,7 +3,7 @@ import unittest
 from leafnode import LeafNode
 
 class TestLeafNode(unittest.TestCase):
-	def testLeafs(self):
+	def test_to_html(self):
 		node1 = LeafNode("p", "This is a paragraph.")
 		node2 = LeafNode("a", "Click me!", {"href": "https://www.apple.com"})
 
