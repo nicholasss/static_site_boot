@@ -4,20 +4,25 @@ from leafnode import LeafNode
 
 
 def main():
-	test_textnode = TextNode("This is a text node", "bold", "https://www.boot.dev")
+	print("Hello, World!")
 
-	print(test_textnode)
 
-	test_htmlnode = HTMLNode("p", "This is a sample paragraph.", props={"href": "https://www.google.com"})
-	print(test_htmlnode)
+def text_node_to_html_node(text_node):
+	if text_node.text_type == "text":
+		return LeafNode(value=text_node.text)
+	elif text_node.text_type == "bold":
+		return LeafNode("b", text_node.text)
+	elif text_node.text_type == "italic":
+		return LeafNode("i", text_node.text)
+	elif text_node.text_type == "code":
+		return LeafNode("code", text_node.text)
+	elif text_node.text_type == "link":
+		return LeafNode("a", text_node.text, {"href": f"{text_node.url}"})
+	elif text_node.text_type == "image":
+		return LeafNode("img", props={"src": f"{text_node.url}", "alt": "Default Alt Text"})
 
-	print("\n")
-
-	test2_htmlnode = HTMLNode("h1", "Great News!", children=test_htmlnode)
-	print(test2_htmlnode)
-
-	test1_leafnode = LeafNode("h1", "Subject Header")
-	print(test1_leafnode.to_html())
+	else:
+		raise ValueError("Unable to convert to HTMLNode Class.")
 
 if __name__ == "__main__":
 	main()
