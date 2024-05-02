@@ -21,5 +21,3 @@ class TestTextNode(unittest.TestCase):
 		node2 = TextNode("Looping Garbage", "italic", "https://www.apple.com")
 		self.assertNotEqual(node1, node2, "FAIL")
 
-if __name__ == "__main__":
-	unittest.main()
