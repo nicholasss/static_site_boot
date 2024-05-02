@@ -37,8 +37,20 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 	new_nodes = []
 
 	for old_node in old_nodes:
+
+		# Test the line below
 		if type(old_node) is not TextNode:
 			new_nodes.append(old_node)
+
+		words = old_node.split()
+
+		# Find the position of words within the string, to use later?
+		for word in words:
+			if delimiter in word:
+				
+				pass
+	pass
+
 
 
 if __name__ == "__main__":
