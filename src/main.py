@@ -19,8 +19,10 @@ def main():
 	delimit = "*"
 	new_node = split_nodes_delimiter(old_node, delimit, text_type_italic)
 
+	print(new_node)
 
-def text_node_to_html_node(text_node):
+
+def text_node_to_html_node(text_node: TextNode):
 	if text_node.text_type == text_type_text:
 		return LeafNode(value=text_node.text)
 	elif text_node.text_type == text_type_bold:
@@ -49,25 +51,32 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 	new_nodes = []
 
 	for old_node in old_nodes:
+		processed_string = ""
 
 		# TODO Test
 		# If its not a TextNode, then add, as is.
 		if type(old_node) is not TextNode:
 			new_nodes.append(old_node)
 
-		# print(f" --DELIMIT-- {delimiter}")
-
 		# Find the position of words within the string, to use later?
 		words = old_node.split()
 		for word in words:
-			print(f" --WORD-- {word}")
-
 			if delimiter in word:
-				print(f" --FOUND DELIMIT-- {word}")
-				
-				pass
-	pass
+				processed_string += word.lstrip(delimiter).rstrip(delimiter)
+			else:
+				processed_string += word
 
+		# Complete processing
+		new_nodes.append(processed_string)
+
+	if len(new_nodes) is 0:
+		return None
+	
+	final_nodes = []
+	for new_node in new_nodes:
+		final_nodes.append(TextNode(new_node, text_type))
+	
+	return final_nodes
 
 
 if __name__ == "__main__":
