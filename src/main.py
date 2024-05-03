@@ -33,6 +33,8 @@ def text_node_to_html_node(text_node):
 		raise ValueError("Unable to convert to HTMLNode Class.")
 
 
+# This func supports only a single level of nesting.
+# i.e. Cannot process "Oh, the **weather *outside* is frightful**"
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
 	new_nodes = []
 
