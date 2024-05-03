@@ -15,14 +15,16 @@ def main():
 	# print("Hello, World!")
 
 	# temp testing
-	old_node = ["This is a *big* pizza pie."]
-	delimit = "*"
-	new_node = split_nodes_delimiter(old_node, delimit, text_type_italic)
+	old_node = [TextNode("This is a *big* pizza pie.", text_type_italic)]
+	new_node = split_nodes_delimiter(old_node, "*", text_type_italic)
+	print(new_node)
 
+	old_node = [TextNode("Look at the **sun** today!", text_type_bold)]
+	new_node = split_nodes_delimiter(old_node, "**", text_type_bold)
 	print(new_node)
 
 
-def text_node_to_html_node(text_node: TextNode):
+def text_node_to_html_node(text_node: TextNode) -> LeafNode:
 	if text_node.text_type == text_type_text:
 		return LeafNode(value=text_node.text)
 	elif text_node.text_type == text_type_bold:
@@ -47,33 +49,37 @@ def text_node_to_html_node(text_node: TextNode):
 #
 # old_nodes must be array type
 #
-def split_nodes_delimiter(old_nodes, delimiter, text_type):
+def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 	new_nodes = []
 
 	for old_node in old_nodes:
-		processed_string = ""
+		processed_words = []
 
 		# TODO Test
 		# If its not a TextNode, then add, as is.
 		if type(old_node) is not TextNode:
+			print(f" --NOT TEXTNODE-- {old_node}")
 			new_nodes.append(old_node)
 
 		# Find the position of words within the string, to use later?
-		words = old_node.split()
+		words = old_node.text.split()
 		for word in words:
+			print(word)
 			if delimiter in word:
-				processed_string += word.lstrip(delimiter).rstrip(delimiter)
+				processed_words.append(word.lstrip(delimiter).rstrip(delimiter))
 			else:
-				processed_string += word
+				processed_words.append(word)
 
 		# Complete processing
+		processed_string = " ".join(processed_words)
 		new_nodes.append(processed_string)
 
-	if len(new_nodes) is 0:
+	if len(new_nodes) == 0:
 		return None
 	
 	final_nodes = []
 	for new_node in new_nodes:
+		print(f" --NEW NODE-- {new_node}")
 		final_nodes.append(TextNode(new_node, text_type))
 	
 	return final_nodes
