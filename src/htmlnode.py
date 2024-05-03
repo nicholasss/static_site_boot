@@ -1,4 +1,4 @@
-# HTMLNode class
+# HTMLNode Class and its child classes
 
 class HTMLNode:
 
