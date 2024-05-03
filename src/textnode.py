@@ -1,10 +1,15 @@
-# TextNode Class
+# TextNode Class and related functions
 
-# In textnode.py create a class called TextNode. It should have 3 properties that can be set in the constructor:
+from leafnode import LeafNode
 
-    # self.text - The text content of the node
-    # self.text_type - The type of text this node contains, which is just a string like "bold" or "italic"
-    # self.url - The URL of the link or image, if the text is a link. Default to None if nothing is passed in.
+
+text_type_text = "text"
+text_type_bold = "bold"
+text_type_italic = "italic"
+text_type_code = "code"
+text_type_link = "link"
+text_type_image = "image"
+
 
 class TextNode:
 	
@@ -22,3 +27,21 @@ class TextNode:
 	
 	def __repr__(self) -> str:
 		return f"TextNode({self.text}, {self.text_type}, {self.url})"
+	
+
+def text_node_to_html_node(text_node: TextNode) -> LeafNode:
+	if text_node.text_type == text_type_text:
+		return LeafNode(value=text_node.text)
+	elif text_node.text_type == text_type_bold:
+		return LeafNode("b", text_node.text)
+	elif text_node.text_type == text_type_italic:
+		return LeafNode("i", text_node.text)
+	elif text_node.text_type == text_type_code:
+		return LeafNode("code", text_node.text)
+	elif text_node.text_type == text_type_link:
+		return LeafNode("a", text_node.text, {"href": f"{text_node.url}"})
+	elif text_node.text_type == text_type_image:
+		return LeafNode("img", props={"src": f"{text_node.url}", "alt": "Default Alt Text"})
+
+	else:
+		raise ValueError("Unable to convert to HTMLNode Class.")

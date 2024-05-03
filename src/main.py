@@ -3,43 +3,8 @@ from htmlnode import HTMLNode
 from leafnode import LeafNode
 
 
-text_type_text = "text"
-text_type_bold = "bold"
-text_type_italic = "italic"
-text_type_code = "code"
-text_type_link = "link"
-text_type_image = "image"
-
-
 def main():
-	# print("Hello, World!")
-
-	# temp testing
-	old_node = [TextNode("This is a *big* pizza pie.", text_type_italic)]
-	new_node = split_nodes_delimiter(old_node, "*", text_type_italic)
-	print(new_node)
-
-	old_node = [TextNode("Look at the **sun** today!", text_type_bold)]
-	new_node = split_nodes_delimiter(old_node, "**", text_type_bold)
-	print(new_node)
-
-
-def text_node_to_html_node(text_node: TextNode) -> LeafNode:
-	if text_node.text_type == text_type_text:
-		return LeafNode(value=text_node.text)
-	elif text_node.text_type == text_type_bold:
-		return LeafNode("b", text_node.text)
-	elif text_node.text_type == text_type_italic:
-		return LeafNode("i", text_node.text)
-	elif text_node.text_type == text_type_code:
-		return LeafNode("code", text_node.text)
-	elif text_node.text_type == text_type_link:
-		return LeafNode("a", text_node.text, {"href": f"{text_node.url}"})
-	elif text_node.text_type == text_type_image:
-		return LeafNode("img", props={"src": f"{text_node.url}", "alt": "Default Alt Text"})
-
-	else:
-		raise ValueError("Unable to convert to HTMLNode Class.")
+	print("Hello, World!")
 
 
 # This func supports only a single level of nesting.
