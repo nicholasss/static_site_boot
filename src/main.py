@@ -35,18 +35,23 @@ def text_node_to_html_node(text_node):
 
 # This func supports only a single level of nesting.
 # i.e. Cannot process "Oh, the **weather *outside* is frightful**"
+#
+# Func received markdown formattted strings, and converts to to TextNodes
+#
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
 	new_nodes = []
 
 	for old_node in old_nodes:
 
-		# Test the line below
+		# TODO Test
+		# If its not a TextNode, then add, as is.
 		if type(old_node) is not TextNode:
 			new_nodes.append(old_node)
 
-		words = old_node.split()
+		print(f" --DELIMIT-- {delimiter}")
 
 		# Find the position of words within the string, to use later?
+		words = old_node.split()
 		for word in words:
 			if delimiter in word:
 				
