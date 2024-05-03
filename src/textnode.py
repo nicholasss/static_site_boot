@@ -1,6 +1,6 @@
 # TextNode Class and related functions
 
-from leafnode import LeafNode
+from htmlnode import *
 
 
 text_type_text = "text"
@@ -49,8 +49,6 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
 
 # This func supports only a single level of nesting.
 # i.e. Cannot process "Oh, the **weather *outside* is frightful**"
-#
-# Func received markdown formattted strings, and converts to to TextNodes
 #
 # old_nodes must be array type
 #
