@@ -12,10 +12,10 @@ text_type_image = "image"
 
 
 def main():
-	print("Hello, World!")
+	# print("Hello, World!")
 
 	# temp testing
-	old_node = "This is a *big* pizza pie."
+	old_node = ["This is a *big* pizza pie."]
 	delimit = "*"
 	new_node = split_nodes_delimiter(old_node, delimit, text_type_italic)
 
@@ -43,6 +43,8 @@ def text_node_to_html_node(text_node):
 #
 # Func received markdown formattted strings, and converts to to TextNodes
 #
+# old_nodes must be array type
+#
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
 	new_nodes = []
 
@@ -53,11 +55,13 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 		if type(old_node) is not TextNode:
 			new_nodes.append(old_node)
 
-		print(f" --DELIMIT-- {delimiter}")
+		# print(f" --DELIMIT-- {delimiter}")
 
 		# Find the position of words within the string, to use later?
 		words = old_node.split()
 		for word in words:
+			print(f" --WORD-- {word}")
+
 			if delimiter in word:
 				print(f" --FOUND DELIMIT-- {word}")
 				
