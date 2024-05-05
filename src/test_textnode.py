@@ -1,6 +1,6 @@
 import unittest
 
-from textnode import TextNode
+from textnode import *
 
 
 class TestTextNode(unittest.TestCase):
@@ -21,3 +21,11 @@ class TestTextNode(unittest.TestCase):
 		node2 = TextNode("Looping Garbage", "italic", "https://www.apple.com")
 		self.assertNotEqual(node1, node2, "FAIL")
 
+	def test_split_nodes_delimit(self):
+		node_array1 = [
+			TextNode("Pizza is looking "),
+			TextNode("**GOOD** ", "bold"),
+			TextNode("*right this second.*", "italic")
+		]
+		processed_array = split_nodes_delimiter()
+		
