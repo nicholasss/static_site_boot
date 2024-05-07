@@ -27,7 +27,9 @@ class TestTextNode(unittest.TestCase):
 			TextNode("**GOOD** ", text_type_bold),
 			TextNode("right this second.", text_type_text)
 		]
-		processed_array = split_nodes_delimiter(node_array1, "*", text_type_bold)
+		processed_array = split_nodes_delimiter([node_array1[0]], None, text_type_text)
+		processed_array += split_nodes_delimiter([node_array1[1]], "*", text_type_bold)
+		processed_array += split_nodes_delimiter([node_array1[2]], None, text_type_text)
 
 		print(processed_array)
 	
