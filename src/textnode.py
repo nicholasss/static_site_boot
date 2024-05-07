@@ -26,7 +26,7 @@ class TextNode:
 		return text_same and text_type_same and url_same
 	
 	def __repr__(self) -> str:
-		return f"TextNode({self.text}, {self.text_type}, {self.url})"
+		return f"TextNode(\"{self.text}\", {self.text_type}, {self.url})"
 	
 
 def text_node_to_html_node(text_node: TextNode) -> LeafNode:
