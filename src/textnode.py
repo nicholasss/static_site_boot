@@ -50,7 +50,7 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
 # This func supports only a single level of nesting.
 # i.e. Cannot process "Oh, the **weather *outside* is frightful**"
 #
-# old_nodes must be array type
+# old_nodes must be an array of 
 #
 def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 	# Early return for empty input
@@ -76,6 +76,11 @@ def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 			if delimiter == None or text_type == text_type_text:
 				processed_words.append(word)
 			elif delimiter in word:
+				begin_delimit_found: bool = word[:2] == delimiter
+				end_delimit_found: bool = word[-2:] == delimiter
+				if !( begin_delimit_found ^ end_delimit_found ):
+					# Raise Exception
+				
 				processed_words.append(word.lstrip(delimiter).rstrip(delimiter))
 			else:
 				processed_words.append(word)
