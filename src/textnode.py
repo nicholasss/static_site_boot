@@ -58,16 +58,16 @@ def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 	for old_node in old_nodes:
 		processed_words = []
 
-		# TODO Test
 		# If its not a TextNode, then add, as is.
 		if type(old_node) is not TextNode:
-			print(f" --NOT TEXTNODE-- {old_node}")
+			# print(f" --NOT TEXTNODE-- {old_node}")
 			new_nodes.append(old_node)
 
 		# Find the position of words within the string, to use later?
+		# TODO If closing delimiter is not found, raise exception
 		words = old_node.text.split()
 		for word in words:
-			print(word)
+			# print(word)
 			if delimiter in word:
 				processed_words.append(word.lstrip(delimiter).rstrip(delimiter))
 			else:
@@ -77,12 +77,14 @@ def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 		processed_string = " ".join(processed_words)
 		new_nodes.append(processed_string)
 
+	# TODO Return empty array - if received empty array (earlier)
 	if len(new_nodes) == 0:
 		return None
 	
+	# TODO text_types need to be different for each node
 	final_nodes = []
 	for new_node in new_nodes:
-		print(f" --NEW NODE-- {new_node}")
+		# print(f" --NEW NODE-- {new_node}")
 		final_nodes.append(TextNode(new_node, text_type))
 	
 	return final_nodes
