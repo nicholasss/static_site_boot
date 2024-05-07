@@ -53,10 +53,15 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
 # old_nodes must be array type
 #
 def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
+	# Early return for empty input
+	if len(old_nodes) == 0:
+		return []
+
 	new_nodes = []
 
 	for old_node in old_nodes:
 		processed_words = []
+		has_end_space = old_node.text[-1] == " "
 
 		# If its not a TextNode, then add, as is.
 		if type(old_node) is not TextNode:
@@ -67,19 +72,20 @@ def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 		# TODO If closing delimiter is not found, raise exception
 		words = old_node.text.split()
 		for word in words:
-			# print(word)
-			if delimiter in word:
+			# print(f" --WORD-- {word}")
+			if delimiter == None or text_type == text_type_text:
+				processed_words.append(word)
+			elif delimiter in word:
 				processed_words.append(word.lstrip(delimiter).rstrip(delimiter))
 			else:
 				processed_words.append(word)
 
 		# Complete processing
 		processed_string = " ".join(processed_words)
-		new_nodes.append(processed_string)
+		if has_end_space:
+			processed_string += " "
 
-	# TODO Return empty array - if received empty array (earlier)
-	if len(new_nodes) == 0:
-		return None
+		new_nodes.append(processed_string)
 	
 	# TODO text_types need to be different for each node
 	final_nodes = []
