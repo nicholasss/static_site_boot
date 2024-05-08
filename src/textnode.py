@@ -98,10 +98,13 @@ def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 	return final_nodes
 
 #
-# Extract Markdown Text
-# 
-
+# Extract Markdown Images
+# Returns list of tuples with alt text and image urls
+def extract_markdown_image(text):
+	return findall(r"!\[(.*?)\]\((.*?)\)", text)
 
 #
-# Extract Markdown Images
-# 
+# Extract Markdown URLS
+# Returns list of tuples with alt text and URLs
+def extract_markdown_url(text):
+	return findall(r"\[(.*?)\]\((.*?)\)", text)

@@ -36,3 +36,5 @@ class TestTextNode(unittest.TestCase):
 		self.assertEqual(processed_array[0].text_type, text_type_text)
 	
 		# TODO test sending in types that are not TextNode
+
+	# TODO write tests for extracting markdown urls and images
