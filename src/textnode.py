@@ -72,14 +72,18 @@ def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 		# TODO If closing delimiter is not found, raise exception
 		words = old_node.text.split()
 		for word in words:
-			# print(f" --WORD-- {word}")
+
+			print(f" --WORD-- \"{word}\"")
+			print(f" --DELIMITER-- \"{delimiter}\"")
 			if delimiter == None or text_type == text_type_text:
 				processed_words.append(word)
+
 			elif delimiter in word:
 				begin_delimit_found: bool = word[:2] == delimiter
 				end_delimit_found: bool = word[-2:] == delimiter
-				if !( begin_delimit_found ^ end_delimit_found ):
-					# Raise Exception
+				if not ( begin_delimit_found and end_delimit_found ):
+					print(f" --DELIMIT TEST-- {begin_delimit_found}, {end_delimit_found} in {word}")
+					raise Exception("Unable to find final delimiter.")
 				
 				processed_words.append(word.lstrip(delimiter).rstrip(delimiter))
 			else:
