@@ -31,6 +31,8 @@ class TestTextNode(unittest.TestCase):
 		processed_array += split_nodes_delimiter([node_array1[1]], "**", text_type_bold)
 		processed_array += split_nodes_delimiter([node_array1[2]], None, text_type_text)
 
-		print(processed_array)
+		self.assertEqual(processed_array[1].text_type, text_type_bold)
+		self.assertEqual(processed_array[1].text, "GOOD")
+		self.assertEqual(processed_array[0].text_type, text_type_text)
 	
 		# TODO test sending in types that are not TextNode

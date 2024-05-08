@@ -53,12 +53,10 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
 # old_nodes must be an array of 
 #
 def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
-	# Early return for empty input
 	if len(old_nodes) == 0:
 		return []
 
 	new_nodes = []
-
 	for old_node in old_nodes:
 		processed_words = []
 		has_end_space = old_node.text[-1] == " "
@@ -68,13 +66,11 @@ def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 			# print(f" --NOT TEXTNODE-- {old_node}")
 			new_nodes.append(old_node)
 
-		# Find the position of words within the string, to use later?
-		# TODO If closing delimiter is not found, raise exception
 		words = old_node.text.split()
 		for word in words:
 
-			print(f" --WORD-- \"{word}\"")
-			print(f" --DELIMITER-- \"{delimiter}\"")
+			# print(f" --WORD-- \"{word}\"")
+			# print(f" --DELIMITER-- \"{delimiter}\"")
 			if delimiter == None or text_type == text_type_text:
 				processed_words.append(word)
 
@@ -82,21 +78,19 @@ def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 				begin_delimit_found: bool = word[:2] == delimiter
 				end_delimit_found: bool = word[-2:] == delimiter
 				if not ( begin_delimit_found and end_delimit_found ):
-					print(f" --DELIMIT TEST-- {begin_delimit_found}, {end_delimit_found} in {word}")
-					raise Exception("Unable to find final delimiter.")
+					# print(f" --DELIMIT TEST-- {begin_delimit_found}, {end_delimit_found} in {word}")
+					raise Exception("Invalid Markdown, formatted section not closed.")
 				
 				processed_words.append(word.lstrip(delimiter).rstrip(delimiter))
-			else:
-				processed_words.append(word)
+			# else:
+			# 	processed_words.append(word)
 
-		# Complete processing
 		processed_string = " ".join(processed_words)
 		if has_end_space:
 			processed_string += " "
 
 		new_nodes.append(processed_string)
-	
-	# TODO text_types need to be different for each node
+
 	final_nodes = []
 	for new_node in new_nodes:
 		# print(f" --NEW NODE-- {new_node}")
