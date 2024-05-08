@@ -1,6 +1,7 @@
 # TextNode Class and related functions
 
 from htmlnode import *
+from re import findall
 
 
 text_type_text = "text"
@@ -47,11 +48,9 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
 		raise ValueError("Unable to convert to HTMLNode Class.")
 
 
-# This func supports only a single level of nesting.
-# i.e. Cannot process "Oh, the **weather *outside* is frightful**"
 #
-# old_nodes must be an array of 
-#
+# Split Nodes Delmitiier
+# 
 def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 	if len(old_nodes) == 0:
 		return []
@@ -97,3 +96,12 @@ def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 		final_nodes.append(TextNode(new_node, text_type))
 	
 	return final_nodes
+
+#
+# Extract Markdown Text
+# 
+
+
+#
+# Extract Markdown Images
+# 
