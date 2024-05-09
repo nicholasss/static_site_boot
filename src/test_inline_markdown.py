@@ -18,6 +18,7 @@ class TestInline_Markdown(unittest.TestCase):
 		self.assertEqual(processed_array[1].text, "GOOD")
 		self.assertEqual(processed_array[0].text_type, text_type_text)
 	
-		# TODO test sending in types that are not TextNode
+	def test_htmlnode_delimit(self):
+		pass
 
 	# TODO write tests for extracting markdown urls and images
