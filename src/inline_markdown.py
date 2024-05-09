@@ -15,7 +15,12 @@ def extract_markdown_url(text):
 	return findall(r"\[(.*?)\]\((.*?)\)", text)
 
 # Split Nodes Delmitiier
-# 
+# receive one textnode
+#    TextNode("This is **huge** for us!", "text")
+# and return several textnodes
+#    TextNode("This is ", "text"),
+#    TextNode("**huge**", "bold"),
+#    TextNode(" for us!", "text")
 def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 	if len(old_nodes) == 0:
 		return []
