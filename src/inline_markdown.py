@@ -24,11 +24,16 @@ def extract_markdown_url(text):
 def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 	if len(old_nodes) == 0:
 		return []
+	
+	if delimiter == None or text_type == text_type_text:
+		return old_nodes
 
 	new_nodes = []
 	for old_node in old_nodes:
+		print(f" --OLD_NODE-- {old_node}")
+
 		processed_words = []
-		has_end_space = old_node.text[-1] == " "
+		# has_end_space = old_node.text[-1] == " "
 
 		# If its not a TextNode, then add, as is.
 		if type(old_node) is not TextNode:
@@ -37,33 +42,47 @@ def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 
 		words = old_node.text.split()
 		for word in words:
-
-			# print(f" --WORD-- \"{word}\"")
+			print(f" --WORD-- \"{word}\"")
 			# print(f" --DELIMITER-- \"{delimiter}\"")
-			if delimiter == None or text_type == text_type_text:
-				processed_words.append(word)
 
-			elif delimiter in word:
+			if delimiter in word:
+				# Ensuring the delmiter closes
 				begin_delimit_found: bool = word[:2] == delimiter
 				end_delimit_found: bool = word[-2:] == delimiter
 				if not ( begin_delimit_found and end_delimit_found ):
-					# print(f" --DELIMIT TEST-- {begin_delimit_found}, {end_delimit_found} in {word}")
+					print(f" --DELIMIT TEST-- {begin_delimit_found}, {end_delimit_found} in {word}")
 					raise Exception("Invalid Markdown, formatted section not closed.")
 				
+				print(f" --WORD-BF-PROC_WORDS-- \"{word}\"")
+				if len(processed_words) != 0:
+					print(f" --PROC_WORDS-- {processed_words}")
+					processed_string = " ".join(processed_words)
+					# if has_end_space:
+					# 	processed_string += " "
+					new_nodes.append(TextNode(processed_string + " ", text_type_text))
+					processed_words = []
+				
+				print(f" --WORD-BF-PROC_WORDS-- \"{word}\" in \"{processed_words}\"")
 				processed_words.append(word.lstrip(delimiter).rstrip(delimiter))
-			# else:
-			# 	processed_words.append(word)
+				processed_string = " ".join(processed_words)
+				new_nodes.append(TextNode(processed_string, text_type))
+				processed_words = []
+				
+			else:
+				processed_words.append(word)
 
-		processed_string = " ".join(processed_words)
-		if has_end_space:
-			processed_string += " "
-
-		new_nodes.append(processed_string)
-
-	final_nodes = []
-	for new_node in new_nodes:
-		# print(f" --NEW NODE-- {new_node}")
-		final_nodes.append(TextNode(new_node, text_type))
+		# processed_words.append(word)
 	
-	return final_nodes
+	# if has_end_space:
+	# 	processed_string += " "
+	processed_string = " ".join(processed_words)
+	new_nodes.append(TextNode(" " + processed_string, text_type_text))
+
+	# final_nodes = []
+	# for new_node in new_nodes:
+	# 	# print(f" --NEW NODE-- {new_node}")
+	# 	final_nodes.append(TextNode(new_node, text_type))
+	
+	print(f" --final_nodes-- {new_nodes}")
+	return new_nodes
 
