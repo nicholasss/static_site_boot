@@ -8,12 +8,12 @@ class TestInline_Markdown(unittest.TestCase):
 		node_array1 = [
 			TextNode("Pizza is looking **GOOD** tonight.", text_type_text)
 		]
-		processed_array = split_nodes_delimiter([node_array1], "**", text_type_bold)
+		processed_array = split_nodes_delimiter(node_array1, "**", text_type_bold)
 		
-		self.assertEqual(processed_array[1].text_type, text_type_bold)
-		self.assertEqual(processed_array[1].text, "GOOD")
-		self.assertEqual(processed_array[0].text_type, text_type_text)
-	
+		self.assertEqual(processed_array[0], TextNode("Pizza is looking ", text_type_text))
+		self.assertEqual(processed_array[1], TextNode("GOOD", text_type_bold))
+		self.assertEqual(processed_array[2], TextNode(" tonight.", text_type_text))
+
 	def test_htmlnode_delimit(self):
 		pass
 
