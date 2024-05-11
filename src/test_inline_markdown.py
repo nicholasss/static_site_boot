@@ -5,9 +5,7 @@ from inline_markdown import *
 
 class TestInline_Markdown(unittest.TestCase):
 	def test_split_nodes_delimit(self):
-		node_array1 = [
-			TextNode("Pizza is looking **GOOD** tonight.", text_type_text)
-		]
+		node_array1 = [TextNode("Pizza is looking **GOOD** tonight.", text_type_text)]
 		processed_array = split_nodes_delimiter(node_array1, "**", text_type_bold)
 		
 		self.assertEqual(processed_array[0], TextNode("Pizza is looking ", text_type_text))
@@ -15,6 +13,12 @@ class TestInline_Markdown(unittest.TestCase):
 		self.assertEqual(processed_array[2], TextNode(" tonight.", text_type_text))
 
 	def test_htmlnode_delimit(self):
-		pass
+		url_md = "Look at this new site, [Apple Inc.](https://www.apple.com)"
+		urls_md = "Here [Facebook](https://www.facebook.com) and [Instagram](https://www.instagram.com) will be merging."
+		img_md = "This image is ai generated! ![A frog riding a horse](https://api.google.com/froghorse)"
+		imgs_md = "This frog is on mars: ![Frog on mars](https://api.google.com/frogmars), whereas this frog is in a board room. ![Frog in suit](https://api.google.com/frogsuit)"
 
-	# TODO write tests for extracting markdown urls and images
+		self.assertEqual(extract_markdown_url(url_md), [("Apple Inc.", "https://www.apple.com")])
+		self.assertEqual(extract_markdown_url(urls_md), [("Facebook", "https://www.facebook.com"), ("Instagram", "https://www.instagram.com")])
+		self.assertEqual(extract_markdown_image(img_md), [("A frog riding a horse", "https://api.google.com/froghorse")])
+		self.assertEqual(extract_markdown_image(imgs_md), [("Frog on mars", "https://api.google.com/frogmars"), ("Frog in suit", "https://api.google.com/frogsuit")])
