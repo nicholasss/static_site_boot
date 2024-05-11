@@ -73,3 +73,40 @@ def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 	# print(f" --final_nodes-- {new_nodes}")
 	return new_nodes
 
+# similar to split_nodes_delimiter - except always will operate on image types
+def split_nodes_images(old_nodes):
+	pass
+
+# similar to split_nodes_delimiter - except always will operate on link types
+def split_nodes_link(old_nodes):
+	old_text_list = []
+	if len(old_nodes) == 0:
+		return []
+	
+	for old_node in old_nodes:
+		old_text_list.append(old_node.text)
+
+		# if old_node.type != text_type_text:
+		# 	raise ValueError(f"This function requires text_type of text - received {old_node.type}")
+
+	print(f" --OLD_TEXT_LIST-- {old_text_list}")
+
+	# TODO is this array_0 at the end needed?
+	new_nodes = list(map(lambda x: extract_markdown_url(x), old_text_list))[0]
+	# print(new_nodes)
+
+	num_links = len(new_nodes)
+	for i in range(num_links):
+		
+		# split with delmiter
+		
+
+		# 1. make text_type with stuff before
+		# 2. then make the link_type with the delimiter
+
+	# 3. then add the stuff at the end
+
+
+
+	# TODO return the list if there are no links
+	

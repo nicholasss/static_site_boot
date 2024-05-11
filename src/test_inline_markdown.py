@@ -12,7 +12,7 @@ class TestInline_Markdown(unittest.TestCase):
 		self.assertEqual(processed_array[1], TextNode("GOOD", text_type_bold))
 		self.assertEqual(processed_array[2], TextNode(" tonight.", text_type_text))
 
-	def test_htmlnode_delimit(self):
+	def test_extract_md(self):
 		url_md = "Look at this new site, [Apple Inc.](https://www.apple.com)"
 		urls_md = "Here [Facebook](https://www.facebook.com) and [Instagram](https://www.instagram.com) will be merging."
 		img_md = "This image is ai generated! ![A frog riding a horse](https://api.google.com/froghorse)"
@@ -22,3 +22,9 @@ class TestInline_Markdown(unittest.TestCase):
 		self.assertEqual(extract_markdown_url(urls_md), [("Facebook", "https://www.facebook.com"), ("Instagram", "https://www.instagram.com")])
 		self.assertEqual(extract_markdown_image(img_md), [("A frog riding a horse", "https://api.google.com/froghorse")])
 		self.assertEqual(extract_markdown_image(imgs_md), [("Frog on mars", "https://api.google.com/frogmars"), ("Frog in suit", "https://api.google.com/frogsuit")])
+
+	def test_split_md(self):
+		url_md = "Here [Facebook](https://www.facebook.com) and [Instagram](https://www.instagram.com) will be merging."
+		url1 = TextNode(url_md, text_type_text)
+
+		proc_url1 = split_nodes_link([url1])
