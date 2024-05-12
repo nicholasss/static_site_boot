@@ -24,7 +24,12 @@ class TestInline_Markdown(unittest.TestCase):
 		self.assertEqual(extract_markdown_image(imgs_md), [("Frog on mars", "https://api.google.com/frogmars"), ("Frog in suit", "https://api.google.com/frogsuit")])
 
 	def test_split_md(self):
-		url_md = "Here [Facebook](https://www.facebook.com) and [Instagram](https://www.instagram.com) will be merging."
-		url1 = TextNode(url_md, text_type_text)
-
+		print("\n====TEST ONE")
+		url1_md = "Here [Facebook](https://www.facebook.com) and [Instagram](https://www.instagram.com) will be merging."
+		url1 = TextNode(url1_md, text_type_text)
 		proc_url1 = split_nodes_link([url1])
+
+		print("\n====TEST TWO")
+		url2_md = "Look at this new site, [Apple Inc.](https://www.apple.com)"
+		url2 = TextNode(url2_md, text_type_text)
+		proc_url2 = split_nodes_link([url2])
