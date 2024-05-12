@@ -89,19 +89,24 @@ def split_nodes_link(old_nodes):
 		# if old_node.type != text_type_text:
 		# 	raise ValueError(f"This function requires text_type of text - received {old_node.type}")
 
-	print(f" --OLD_TEXT_LIST-- {old_text_list}")
+	# print(f" --OLD_TEXT_LIST-- {old_text_list}")
 
 	# TODO is this array_0 at the end needed?
 	new_nodes = list(map(lambda x: extract_markdown_url(x), old_text_list))[0]
 	# print(new_nodes)
 
-	num_links = len(new_nodes)
-	for i in range(num_links):
+	# print(f" --NEW_NODES-- {new_nodes}")
+
+	for node in new_nodes:
 		
 		# split with delmiter
-		
+		delimit = f"[{node[0]}]({node[1]})"
+		print(f" --DELIMIT-- {delimit}")
+		split_node_text = list(map(lambda x: x.split(delimit), old_text_list))[0]
+		print(split_node_text)
 
 		# 1. make text_type with stuff before
+		# TODO what about the stuff between the links?
 		# 2. then make the link_type with the delimiter
 
 	# 3. then add the stuff at the end
