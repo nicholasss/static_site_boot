@@ -92,26 +92,37 @@ def split_nodes_link(old_nodes):
 	# print(f" --OLD_TEXT_LIST-- {old_text_list}")
 
 	# TODO is this array_0 at the end needed?
-	new_nodes = list(map(lambda x: extract_markdown_url(x), old_text_list))[0]
+	url_list = list(map(lambda x: extract_markdown_url(x), old_text_list))[0]
 	# print(new_nodes)
 
 	# print(f" --NEW_NODES-- {new_nodes}")
 
-	for node in new_nodes:
-		
-		# split with delmiter
-		delimit = f"[{node[0]}]({node[1]})"
+	final_nodes = []
+	text_list = []
+	for item in url_list:
+		delimit = f"[{item[0]}]({item[1]})"
 		print(f" --DELIMIT-- {delimit}")
-		split_node_text = list(map(lambda x: x.split(delimit), old_text_list))[0]
-		print(split_node_text)
+		text_list = list(map(lambda x: x.split(delimit, 1), old_text_list))[0]
+		print(text_list)
 
-		# 1. make text_type with stuff before
+		# TODO if switch for there is text between the links
+
+		found_other_link = extract_markdown_url(text_list[0])
+		if len(found_other_link) == 0:
+			final_nodes.append(TextNode(text_list[0], text_type_text))
+		elif found_other_link[0][1] in text_list[0]:
+			print("other text between links likely - not added yet")
+			# split and find end text of first item in text_list
+		
+		final_nodes.append(TextNode(item[0], text_type_link, item[1]))
+
+	if len(text_list[1]) != 0:
+		final_nodes.append(TextNode(text_list[1], text_type_text))
+
+
 		# TODO what about the stuff between the links?
-		# 2. then make the link_type with the delimiter
-
-	# 3. then add the stuff at the end
-
-
 
 	# TODO return the list if there are no links
+
+	return final_nodes
 	
