@@ -13,7 +13,7 @@ class TestInline_Markdown(unittest.TestCase):
 		self.assertEqual(processed_array[2], TextNode(" tonight.", text_type_text))
 
 	def test_extract_md(self):
-		url_md = "Look at this new site, [Apple Inc.](https://www.apple.com)"
+		url_md = "Look at this new site: [Apple Inc.](https://www.apple.com)!"
 		urls_md = "Here [Facebook](https://www.facebook.com) and [Instagram](https://www.instagram.com) will be merging."
 		img_md = "This image is ai generated! ![A frog riding a horse](https://api.google.com/froghorse)"
 		imgs_md = "This frog is on mars: ![Frog on mars](https://api.google.com/frogmars), whereas this frog is in a board room. ![Frog in suit](https://api.google.com/frogsuit)"
@@ -24,14 +24,13 @@ class TestInline_Markdown(unittest.TestCase):
 		self.assertEqual(extract_markdown_image(imgs_md), [("Frog on mars", "https://api.google.com/frogmars"), ("Frog in suit", "https://api.google.com/frogsuit")])
 
 	def test_split_md(self):
-		print("\n====TEST ONE")
 		url1_md = "Here [Facebook](https://www.facebook.com) and [Instagram](https://www.instagram.com) will be merging."
 		url1 = TextNode(url1_md, text_type_text)
 		proc_url1 = split_nodes_link([url1])
-		print(f" --PRINT-- {proc_url1}")
 
-		print("\n====TEST TWO")
-		url2_md = "Look at this new site, [Apple Inc.](https://www.apple.com)"
+		url2_md = "Look at this new site, [Apple Inc.](https://www.apple.com)!"
 		url2 = TextNode(url2_md, text_type_text)
 		proc_url2 = split_nodes_link([url2])
-		print(f" --PRINT-- {proc_url2}")
+
+		self.assertEqual(proc_url1[0], TextNode("Here ", text_type_text))
+		self.assertEqual(proc_url2[2], TextNode("!", text_type_text))

@@ -102,9 +102,9 @@ def split_nodes_link(old_nodes):
 	prev_delmit = ""
 	for item in url_list:
 		delimit = f"[{item[0]}]({item[1]})"
-		print(f" --DELIMIT-- {delimit}")
+		# print(f" --DELIMIT-- {delimit}")
 		text_list = list(map(lambda x: x.split(delimit, 2), old_text_list))[0]
-		print(text_list)
+		# print(text_list)
 
 		# TODO if switch for there is text between the links
 
