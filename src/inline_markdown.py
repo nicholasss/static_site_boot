@@ -99,10 +99,11 @@ def split_nodes_link(old_nodes):
 
 	final_nodes = []
 	text_list = []
+	prev_delmit = ""
 	for item in url_list:
 		delimit = f"[{item[0]}]({item[1]})"
 		print(f" --DELIMIT-- {delimit}")
-		text_list = list(map(lambda x: x.split(delimit, 1), old_text_list))[0]
+		text_list = list(map(lambda x: x.split(delimit, 2), old_text_list))[0]
 		print(text_list)
 
 		# TODO if switch for there is text between the links
@@ -111,9 +112,12 @@ def split_nodes_link(old_nodes):
 		if len(found_other_link) == 0:
 			final_nodes.append(TextNode(text_list[0], text_type_text))
 		elif found_other_link[0][1] in text_list[0]:
-			print("other text between links likely - not added yet")
-			# split and find end text of first item in text_list
-		
+			sub_text_list = list(map(lambda x: x.split(prev_delmit, 2), [text_list[0]]))[0]
+			middle_text = sub_text_list[-1]
+			if middle_text != "":
+				final_nodes.append(TextNode(middle_text,text_type_text))
+
+		prev_delmit = delimit
 		final_nodes.append(TextNode(item[0], text_type_link, item[1]))
 
 	if len(text_list[1]) != 0:
