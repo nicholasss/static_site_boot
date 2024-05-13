@@ -28,8 +28,10 @@ class TestInline_Markdown(unittest.TestCase):
 		url1_md = "Here [Facebook](https://www.facebook.com) and [Instagram](https://www.instagram.com) will be merging."
 		url1 = TextNode(url1_md, text_type_text)
 		proc_url1 = split_nodes_link([url1])
+		print(f" --PRINT-- {proc_url1}")
 
 		print("\n====TEST TWO")
 		url2_md = "Look at this new site, [Apple Inc.](https://www.apple.com)"
 		url2 = TextNode(url2_md, text_type_text)
 		proc_url2 = split_nodes_link([url2])
+		print(f" --PRINT-- {proc_url2}")
