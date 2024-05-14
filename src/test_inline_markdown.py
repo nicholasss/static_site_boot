@@ -33,4 +33,7 @@ class TestInline_Markdown(unittest.TestCase):
 		proc_url2 = split_nodes_link([url2])
 
 		self.assertEqual(proc_url1[0], TextNode("Here ", text_type_text))
+		self.assertEqual(proc_url1[1], TextNode("Facebook", text_type_link, "https://www.facebook.com"))
+
+		self.assertEqual(proc_url2[1], TextNode("Apple Inc.", text_type_link, "https://www.apple.com"))
 		self.assertEqual(proc_url2[2], TextNode("!", text_type_text))

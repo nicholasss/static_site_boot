@@ -95,12 +95,17 @@ def split_nodes_link(old_nodes):
 		delimit = f"[{item[0]}]({item[1]})"
 
 		text_list = list(map(lambda x: x.split(delimit, 2), old_text_list))[0]
-		additional_link = extract_markdown_url(text_list[0])[0][1]
+		# print(f" --LST-- {text_list}")
+		additional_link = extract_markdown_url(text_list[0])
+		# print(f" --ADTL-- {additional_link}")
+
+		if not len(additional_link) == 0:
+			additional_link_text = additional_link[0][0]
 
 		if len(additional_link) == 0:
 			final_nodes.append(TextNode(text_list[0], text_type_text))
 
-		elif additional_link in text_list[0]:
+		elif additional_link_text in text_list[0]:
 			sub_text_list = list(map(lambda x: x.split(prev_delmit, 2), [text_list[0]]))[0]
 			middle_text = sub_text_list[-1]
 			if middle_text != "":
