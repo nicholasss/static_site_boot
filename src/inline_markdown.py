@@ -78,8 +78,7 @@ def split_nodes_images(old_nodes):
 	if len(old_nodes) == 0:
 		return []
 	
-	old_img_list = old_nodes.copy()
-	img_node_list = list(map(lambda item: extract_markdown_image(item), old_img_list))[0]
+	img_node_list = list(map(lambda node: extract_markdown_image(node.text), old_nodes))[0]
 
 	final_nodes = []
 	split_list = []
@@ -87,7 +86,7 @@ def split_nodes_images(old_nodes):
 
 	for node in img_node_list:
 		delimit = f"![{node[0]}]({node[1]})"
-		split_list = list(map(lambda text: text.split(delimit, 2), old_img_list))[0]
+		split_list = list(map(lambda node_text: node_text.text.split(delimit, 2), old_nodes))[0]
 		additional_img_list = extract_markdown_image(split_list[0])
 
 		if not len(additional_img_list) == 0:
@@ -112,22 +111,23 @@ def split_nodes_images(old_nodes):
 
 # similar to split_nodes_delimiter - except always will operate on link types
 def split_nodes_link(old_nodes):
-	old_text_list = []
+	# old_text_list = []
 	if len(old_nodes) == 0:
 		return []
 	
-	for old_node in old_nodes:
-		old_text_list.append(old_node.text)
+	# for old_node in old_nodes:
+	# 	old_text_list.append(old_node.text)
 
-	url_list = list(map(lambda item: extract_markdown_url(item), old_text_list))[0]
+	url_list = list(map(lambda node: extract_markdown_url(node.text), old_nodes))[0]
 
 	final_nodes = []
 	text_list = []
 	prev_delimit = ""
+	
 	for item in url_list:
 		delimit = f"[{item[0]}]({item[1]})"
 
-		text_list = list(map(lambda text: text.split(delimit, 2), old_text_list))[0]
+		text_list = list(map(lambda node_text: node_text.text.split(delimit, 2), old_nodes))[0]
 
 		additional_link = extract_markdown_url(text_list[0])
 
