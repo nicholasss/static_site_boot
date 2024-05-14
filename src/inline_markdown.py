@@ -75,7 +75,40 @@ def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
 
 # similar to split_nodes_delimiter - except always will operate on image types
 def split_nodes_images(old_nodes):
-	pass
+	if len(old_nodes) == 0:
+		return []
+	
+	old_img_list = old_nodes.copy()
+	img_node_list = list(map(lambda item: extract_markdown_image(item), old_img_list))[0]
+
+	final_nodes = []
+	split_list = []
+	prev_delimit = ""
+
+	for node in img_node_list:
+		delimit = f"![{node[0]}]({node[1]})"
+		split_list = list(map(lambda text: text.split(delimit, 2), old_img_list))[0]
+		additional_img_list = extract_markdown_image(split_list[0])
+
+		if not len(additional_img_list) == 0:
+			additional_img_text = additional_img_list[0][0]
+
+		if len(additional_img_list) == 0:
+			final_nodes.append(TextNode(split_list[0], text_type_text))
+
+		elif additional_img_text in split_list[0]:   
+			sub_img_list = list(map(lambda text: text.split(prev_delimit, 2), [split_list[0]]))[0]
+			middle_text = sub_img_list[-1]
+			if not middle_text == "":
+				final_nodes.append(TextNode(middle_text, text_type_text))
+
+		prev_delimit = delimit
+		final_nodes.append(TextNode(node[0], text_type_image, node[1]))
+
+		if len(split_list[1]) != 0:
+			final_nodes.append(TextNode(split_list[1], text_type_text))
+
+	return final_nodes
 
 # similar to split_nodes_delimiter - except always will operate on link types
 def split_nodes_link(old_nodes):
@@ -86,18 +119,17 @@ def split_nodes_link(old_nodes):
 	for old_node in old_nodes:
 		old_text_list.append(old_node.text)
 
-	url_list = list(map(lambda x: extract_markdown_url(x), old_text_list))[0]
+	url_list = list(map(lambda item: extract_markdown_url(item), old_text_list))[0]
 
 	final_nodes = []
 	text_list = []
-	prev_delmit = ""
+	prev_delimit = ""
 	for item in url_list:
 		delimit = f"[{item[0]}]({item[1]})"
 
-		text_list = list(map(lambda x: x.split(delimit, 2), old_text_list))[0]
-		# print(f" --LST-- {text_list}")
+		text_list = list(map(lambda text: text.split(delimit, 2), old_text_list))[0]
+
 		additional_link = extract_markdown_url(text_list[0])
-		# print(f" --ADTL-- {additional_link}")
 
 		if not len(additional_link) == 0:
 			additional_link_text = additional_link[0][0]
@@ -106,12 +138,12 @@ def split_nodes_link(old_nodes):
 			final_nodes.append(TextNode(text_list[0], text_type_text))
 
 		elif additional_link_text in text_list[0]:
-			sub_text_list = list(map(lambda x: x.split(prev_delmit, 2), [text_list[0]]))[0]
+			sub_text_list = list(map(lambda text: text.split(prev_delimit, 2), [text_list[0]]))[0]
 			middle_text = sub_text_list[-1]
 			if middle_text != "":
-				final_nodes.append(TextNode(middle_text,text_type_text))
+				final_nodes.append(TextNode(middle_text, text_type_text))
 
-		prev_delmit = delimit
+		prev_delimit = delimit
 		final_nodes.append(TextNode(item[0], text_type_link, item[1]))
 
 	if len(text_list[1]) != 0:
