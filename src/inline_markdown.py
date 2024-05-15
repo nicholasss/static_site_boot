@@ -154,4 +154,13 @@ def split_nodes_link(old_nodes):
 	return final_nodes
 	
 def text_to_textnodes(text: str) -> list[TextNode]:
-	pass
+
+	list_parts = text.split(" ")
+	print(list_parts)
+	
+	final_parts = []
+	for part in list_parts:
+		final_parts.append(split_nodes_delimiter([TextNode(part, text_type_text)], "**", "bold"))
+ 
+	return final_parts
+	
