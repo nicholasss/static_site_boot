@@ -21,7 +21,7 @@ def extract_markdown_url(text):
 #    TextNode("This is ", "text"),
 #    TextNode("**huge**", "bold"),
 #    TextNode(" for us!", "text")
-def split_nodes_delimiter(old_nodes, delimiter: str, text_type: str):
+def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: str):
 	if len(old_nodes) == 0:
 		return []
 	
@@ -125,7 +125,7 @@ def split_nodes_link(old_nodes):
 	final_nodes = []
 	text_list = []
 	prev_delimit = ""
-	
+
 	for item in url_list:
 		delimit = f"[{item[0]}]({item[1]})"
 
@@ -153,3 +153,5 @@ def split_nodes_link(old_nodes):
 
 	return final_nodes
 	
+def text_to_textnodes(text: str) -> list[TextNode]:
+	pass

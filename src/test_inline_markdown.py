@@ -53,3 +53,9 @@ class TestInline_Markdown(unittest.TestCase):
 
 		self.assertEqual(proc_img2[0], TextNode("Look at this new logo ", text_type_text))
 		self.assertEqual(proc_img2[1], TextNode("Apple Inc Logo", text_type_image, "https://www.apple.com/logo"))
+
+	def test_text_to_textnodes(self):
+
+		example_text = "This is **text** with an *italic* word and a `code block` and an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and a [link](https://boot.dev)"
+
+		text_to_textnodes()
