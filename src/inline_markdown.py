@@ -104,9 +104,11 @@ def split_nodes_images(old_nodes):
 		prev_delimit = delimit
 		final_nodes.append(TextNode(node[0], text_type_image, node[1]))
 
-		if len(split_list[1]) != 0:
-			final_nodes.append(TextNode(split_list[1], text_type_text))
+	if len(split_list[1]) != 0:
+		# print(f" --END OF LINE-- {split_list[1]}")
+		final_nodes.append(TextNode(split_list[1], text_type_text))
 
+	# print(f" --FINAL-- {final_nodes}")
 	return final_nodes
 
 # similar to split_nodes_delimiter - except always will operate on link types

@@ -49,3 +49,7 @@ class TestInline_Markdown(unittest.TestCase):
 
 		self.assertEqual(proc_img1[0], TextNode("Look at the ", text_type_text))
 		self.assertEqual(proc_img1[1], TextNode("Frog on Bike", text_type_image, "https://www.image.com/image1"))
+		self.assertEqual(proc_img1[3], TextNode("Bike on Cheese", text_type_image, "https://www.image.com/image2"))
+
+		self.assertEqual(proc_img2[0], TextNode("Look at this new logo ", text_type_text))
+		self.assertEqual(proc_img2[1], TextNode("Apple Inc Logo", text_type_image, "https://www.apple.com/logo"))
