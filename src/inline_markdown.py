@@ -167,11 +167,17 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 			if delimiter in part:
 				delimiter_found = delimiter
 
+		# look for links or images and append those
+
 		# if its in the same 'part' then append that to final parts as new textnode
-		
+		if delimiter != "" and delimiter in part[:2] and delimiter in part[-2:]:
+			pass
+			# one part node found, convert and append to final parts
 
 		# if its not then look through, past the current word
 		# and append those to a temp array and append those to final parts
+
+		# else append the words up until the next delimiter?
  
 	return final_parts
 	
