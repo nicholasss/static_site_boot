@@ -10,6 +10,11 @@ text_type_code = "code"
 text_type_link = "link"
 text_type_image = "image"
 
+textnode_delimiters = [
+	"*",
+	"**",
+	"`"
+]
 
 class TextNode:
 	
