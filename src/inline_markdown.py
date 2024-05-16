@@ -160,10 +160,16 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 	
 	final_parts = []
 	for part in list_parts:
-		final_parts.append(split_nodes_delimiter([TextNode(part, text_type_text)], "**", "bold")[0])
-
+		
 		# for each part, look for its corresponding delimiter
+		delimiter_found = ""
+		for delimiter in textnode_delimiters:
+			if delimiter in part:
+				delimiter_found = delimiter
+
 		# if its in the same 'part' then append that to final parts as new textnode
+		
+
 		# if its not then look through, past the current word
 		# and append those to a temp array and append those to final parts
  
