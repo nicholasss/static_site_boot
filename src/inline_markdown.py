@@ -165,9 +165,11 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 		processed_nodes = []
 		if len(extract_markdown_url(part)) != 0:
 			if "!" in part:
-				processed_nodes = split_nodes_images([part])
+				part_textnode = TextNode(part, text_type_image)
+				processed_nodes = split_nodes_images([part_textnode])
 			else:
-				processed_nodes = split_nodes_link([part])
+				part_textnode = TextNode(part, text_type_link)
+				processed_nodes = split_nodes_link([part_textnode])
 			
 			final_parts.append(processed_nodes)
 			continue
