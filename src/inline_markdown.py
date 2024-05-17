@@ -45,10 +45,10 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 
 			if delimiter in word:
 				# Ensuring the delmiter closes
-				begin_delimit_found: bool = word[:2] == delimiter
-				end_delimit_found: bool = word[-2:] == delimiter
+				begin_delimit_found: bool = delimiter in word[:2]
+				end_delimit_found: bool = delimiter in  word[-2:]
 				if not ( begin_delimit_found and end_delimit_found ):
-					print(f" --DELIMIT TEST-- {begin_delimit_found}, {end_delimit_found} in {word}")
+					print(f" --DELIMIT TEST-- {begin_delimit_found}, {end_delimit_found} in {word} with delimiter: {delimiter}")
 					raise Exception("Invalid Markdown, formatted section not closed.")
 				
 				# print(f" --WORD-BF-PROC_WORDS-- \"{word}\"")
@@ -174,14 +174,25 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 		
 		# for each part, look for its corresponding delimiter
 		delimiter_found = ""
+		delimiter_type = ""
 		for delimiter in textnode_delimiters:
 			if delimiter in part:
 				delimiter_found = delimiter
+				break
 
-		# if its in the same 'part' then append that to final parts as new textnode
+		if delimiter_found == '**':
+			delimiter_type = text_type_bold
+		elif delimiter_found == '*':
+			delimiter_type = text_type_italic
+		elif delimiter_found == '`':
+			delimiter_type = text_type_code
+
 		if delimiter != "" and delimiter in part[:2] and delimiter in part[-2:]:
-			# TextNode can be converted with only one part
-			pass
+			# TextNode will be a single 'part'
+			part_textnode = TextNode(part, text_type_text)
+			processed_textnode  = split_nodes_delimiter([part_textnode], delimiter, delimiter_type)
+			print(processed_textnode)
+			final_parts.append(processed_textnode)
 		
 		elif delimiter != "":
 			# TextNode will be mutli-'part'
