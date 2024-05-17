@@ -160,15 +160,17 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 	
 	final_parts = []
 	for part in list_parts:
-		
+
 		# look for links or images and append those
 		processed_nodes = []
-		if "!" in part:
-			processed_nodes = split_nodes_images([part])
-		else:
-			processed_nodes = split_nodes_link([part])
-
-		final_parts.append(processed_nodes)
+		if len(extract_markdown_url(part)) != 0:
+			if "!" in part:
+				processed_nodes = split_nodes_images([part])
+			else:
+				processed_nodes = split_nodes_link([part])
+			
+			final_parts.append(processed_nodes)
+			continue
 		
 		# for each part, look for its corresponding delimiter
 		delimiter_found = ""
@@ -178,8 +180,12 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 
 		# if its in the same 'part' then append that to final parts as new textnode
 		if delimiter != "" and delimiter in part[:2] and delimiter in part[-2:]:
+			# TextNode can be converted with only one part
 			pass
-			# one part node found, convert and append to final parts
+		
+		elif delimiter != "":
+			# TextNode will be mutli-'part'
+			pass
 
 		# if its not then look through, past the current word
 		# and append those to a temp array and append those to final parts
