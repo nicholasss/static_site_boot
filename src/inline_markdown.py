@@ -168,6 +168,13 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 				delimiter_found = delimiter
 
 		# look for links or images and append those
+		processed_nodes = []
+		if "!" in part:
+			processed_nodes = split_nodes_images([part])
+		else:
+			processed_nodes = split_nodes_link([part])
+			
+		final_parts.append(processed_nodes)
 
 		# if its in the same 'part' then append that to final parts as new textnode
 		if delimiter != "" and delimiter in part[:2] and delimiter in part[-2:]:
