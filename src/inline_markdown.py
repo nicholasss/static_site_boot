@@ -162,6 +162,8 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 	for part in list_parts:
 
 		# look for links or images and append those
+
+		# was working fine before commit a9a69d1
 		processed_nodes = []
 		if len(extract_markdown_url(part)) != 0:
 			if "!" in part:
@@ -192,14 +194,18 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 		if delimiter != "" and delimiter in part[:2] and delimiter in part[-2:]:
 			# TextNode will be a single 'part'
 			part_textnode = TextNode(part, text_type_text)
-			processed_textnode  = split_nodes_delimiter([part_textnode], delimiter, delimiter_type)
+			processed_textnode  = split_nodes_delimiter([part_textnode], delimiter, delimiter_type)[0]
+			# somehow is also returning a TextNode with a space here
 			print(processed_textnode)
 			final_parts.append(processed_textnode)
 		
 		elif delimiter != "":
 			# TextNode will be mutli-'part'
 			pass
-
+		
+		else:
+			plain_textnode = TextNode(part, text_type_text)
+			final_parts.append(plain_textnode)
 		# if its not then look through, past the current word
 		# and append those to a temp array and append those to final parts
 

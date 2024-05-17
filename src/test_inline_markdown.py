@@ -57,11 +57,11 @@ class TestInline_Markdown(unittest.TestCase):
 	def test_text_to_textnodes(self):
 		
 		print(" == TEST 1")
-		text1 = "This is **text** with an *italic* word"
+		text1 = "This is a **bolded** word with an *italicized* word"
 		nodes1 = text_to_textnodes(text1)
 		print(nodes1)
 
 		print(" == TEST 2")
-		text2 = "This is `code block` and a [link](https://apple.com)"
+		text2 = "This is `code block` and a link to [Apple Homepage](https://apple.com)"
 		nodes2 = text_to_textnodes(text2)
 		print(nodes2)
