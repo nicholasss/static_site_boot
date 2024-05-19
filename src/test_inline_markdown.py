@@ -57,7 +57,7 @@ class TestInline_Markdown(unittest.TestCase):
 	def test_text_to_textnodes(self):
 		
 		print(" == TEST 1")
-		text1 = "This is a **bolded** word with an *italicized* word"
+		text1 = "This is a **bolded** word with an *italicized* word."
 		nodes1 = text_to_textnodes(text1)
 		print(nodes1)
 

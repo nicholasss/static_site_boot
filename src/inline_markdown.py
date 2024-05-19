@@ -161,6 +161,8 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 	final_parts = []
 	for part in list_parts:
 
+		print(f" --PART-- {part}")
+
 		# look for links or images and append those
 
 		# was working fine before commit a9a69d1
@@ -174,7 +176,7 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 				processed_nodes = split_nodes_link([part_textnode])
 			
 			final_parts.append(processed_nodes)
-			continue
+			continue # Skips to next part
 		
 		# for each part, look for its corresponding delimiter
 		delimiter_found = ""
@@ -192,20 +194,25 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 			delimiter_type = text_type_code
 
 		if delimiter != "" and delimiter in part[:2] and delimiter in part[-2:]:
+			# print(f" --Special TextNode Single Part-- {part}")
 			# TextNode will be a single 'part'
 			part_textnode = TextNode(part, text_type_text)
 			processed_textnode  = split_nodes_delimiter([part_textnode], delimiter, delimiter_type)[0]
 			# somehow is also returning a TextNode with a space here
 			print(processed_textnode)
 			final_parts.append(processed_textnode)
+			continue # Skips to next part
 		
-		elif delimiter != "":
+		elif delimiter != "" and delimiter in part:
+			# print(f" --Special Textnode Multi Part-- {part}")
 			# TextNode will be mutli-'part'
 			pass
-		
+
 		else:
+			# print(f" --plain_textnode-- {part}")
 			plain_textnode = TextNode(part, text_type_text)
 			final_parts.append(plain_textnode)
+			continue # Skips to next part
 		# if its not then look through, past the current word
 		# and append those to a temp array and append those to final parts
 
