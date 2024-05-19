@@ -33,10 +33,16 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 		# print(f" --OLD_NODE-- {old_node}")
 		processed_words = []
 
-		# If its not a TextNode, then add, as is.
+		# If its not a TextNode, then add as is.
 		if type(old_node) is not TextNode:
 			# print(f" --NOT TEXTNODE-- {old_node}")
 			new_nodes.append(old_node)
+			continue
+
+		# If the TextNode is not text_type, then add as is.
+		if old_node.type != text_type_text or old_node.type != text_type_image or old_node.type != text_type_link:
+			new_nodes.append(old_node)
+			continue
 
 		words = old_node.text.split()
 		for word in words:
@@ -66,6 +72,8 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 				
 			else:
 				processed_words.append(word)
+
+		# Add the remainder of processed_string to processed word and append to new_nodes
 	
 	processed_string = " ".join(processed_words)
 	new_nodes.append(TextNode(" " + processed_string, text_type_text))
@@ -75,10 +83,16 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 
 # similar to split_nodes_delimiter - except always will operate on image types
 def split_nodes_images(old_nodes):
+	# print(f" --OLD_NODES-- {old_nodes}")
+
 	if len(old_nodes) == 0:
-		raise Exception("No nodes were provided in arguments.")
+		raise Exception("Empty list was provided")
+	
 	
 	img_node_list = list(map(lambda node: extract_markdown_image(node.text), old_nodes))[0]
+
+	if len(img_node_list) == 0:
+		return old_nodes
 
 	final_nodes = []
 	split_list = []
@@ -104,6 +118,10 @@ def split_nodes_images(old_nodes):
 		prev_delimit = delimit
 		final_nodes.append(TextNode(node[0], text_type_image, node[1]))
 
+	if len(old_nodes) == 1:
+		# print(f" --END OF LINE-- {split_list}")
+		return final_nodes
+
 	if len(split_list[1]) != 0:
 		# print(f" --END OF LINE-- {split_list[1]}")
 		final_nodes.append(TextNode(split_list[1], text_type_text))
@@ -114,13 +132,16 @@ def split_nodes_images(old_nodes):
 # similar to split_nodes_delimiter - except always will operate on link types
 def split_nodes_link(old_nodes):
 	# old_text_list = []
+
+	# print(f" --OLD_NODES-- {old_nodes}")
+
 	if len(old_nodes) == 0:
-		raise Exception("No nodes were provided in arguments.")
-	
-	# for old_node in old_nodes:
-	# 	old_text_list.append(old_node.text)
+		raise Exception("Empty list was provided")
 
 	url_list = list(map(lambda node: extract_markdown_url(node.text), old_nodes))[0]
+
+	if len(url_list) == 0:
+		return old_nodes
 
 	final_nodes = []
 	text_list = []
@@ -155,68 +176,27 @@ def split_nodes_link(old_nodes):
 	
 def text_to_textnodes(text: str) -> list[TextNode]:
 
-	list_parts = text.split(" ")
-	print(list_parts)
-	
-	final_parts = []
-	for part in list_parts:
+	print(text)
 
-		print(f" --PART-- {part}")
+	raw_node = [TextNode(text, text_type_text)]
 
-		# look for links or images and append those
+	# First look for link objects
+	partial_proc_node = split_nodes_images(raw_node)
+	partial_proc_node = split_nodes_link(partial_proc_node)
 
-		# was working fine before commit a9a69d1
-		processed_nodes = []
-		if len(extract_markdown_url(part)) != 0:
-			if "!" in part:
-				part_textnode = TextNode(part, text_type_image)
-				processed_nodes = split_nodes_images([part_textnode])
-			else:
-				part_textnode = TextNode(part, text_type_link)
-				processed_nodes = split_nodes_link([part_textnode])
-			
-			final_parts.append(processed_nodes)
-			continue # Skips to next part
-		
-		# for each part, look for its corresponding delimiter
-		delimiter_found = ""
-		delimiter_type = ""
-		for delimiter in textnode_delimiters:
-			if delimiter in part:
-				delimiter_found = delimiter
-				break
+	for delimiter in textnode_delimiters:
 
-		if delimiter_found == '**':
+		if delimiter == '**':
 			delimiter_type = text_type_bold
-		elif delimiter_found == '*':
+		elif delimiter == '*':
 			delimiter_type = text_type_italic
-		elif delimiter_found == '`':
+		elif delimiter == '`':
 			delimiter_type = text_type_code
 
-		if delimiter != "" and delimiter in part[:2] and delimiter in part[-2:]:
-			# print(f" --Special TextNode Single Part-- {part}")
-			# TextNode will be a single 'part'
-			part_textnode = TextNode(part, text_type_text)
-			processed_textnode  = split_nodes_delimiter([part_textnode], delimiter, delimiter_type)[0]
-			# somehow is also returning a TextNode with a space here
-			print(processed_textnode)
-			final_parts.append(processed_textnode)
-			continue # Skips to next part
-		
-		elif delimiter != "" and delimiter in part:
-			# print(f" --Special Textnode Multi Part-- {part}")
-			# TextNode will be mutli-'part'
-			pass
+		partial_proc_node = split_nodes_delimiter(partial_proc_node, delimiter, delimiter_type)
 
-		else:
-			# print(f" --plain_textnode-- {part}")
-			plain_textnode = TextNode(part, text_type_text)
-			final_parts.append(plain_textnode)
-			continue # Skips to next part
-		# if its not then look through, past the current word
-		# and append those to a temp array and append those to final parts
 
-		# else append the words up until the next delimiter?
+	final_nodes = partial_proc_node
  
-	return final_parts
+	return final_nodes
 	
