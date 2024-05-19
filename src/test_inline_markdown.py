@@ -12,6 +12,14 @@ class TestInline_Markdown(unittest.TestCase):
 		self.assertEqual(processed_array[1], TextNode("GOOD", text_type_bold))
 		self.assertEqual(processed_array[2], TextNode(" tonight.", text_type_text))
 
+		node_arr2 = [TextNode("This *was* a big pizza! So many **olives!**", gitext_type_text)]
+		proc_arr2 = split_nodes_delimiter(node_arr2, "*", text_type_italic)
+
+		self.assertEqual(proc_arr2[1], [TextNode("was", text_type_italic)])
+		self.assertEqual(proc_arr2[2], [TextNode("a big pizza! So many **olives!**", text_type_text)])
+
+
+
 	def test_extract_md(self):
 		url_md = "Look at this new site: [Apple Inc.](https://www.apple.com)!"
 		urls_md = "Here [Facebook](https://www.facebook.com) and [Instagram](https://www.instagram.com) will be merging."
