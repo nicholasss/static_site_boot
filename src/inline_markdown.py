@@ -76,7 +76,7 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 # similar to split_nodes_delimiter - except always will operate on image types
 def split_nodes_images(old_nodes):
 	if len(old_nodes) == 0:
-		return []
+		raise Exception("No nodes were provided in arguments.")
 	
 	img_node_list = list(map(lambda node: extract_markdown_image(node.text), old_nodes))[0]
 
@@ -115,7 +115,7 @@ def split_nodes_images(old_nodes):
 def split_nodes_link(old_nodes):
 	# old_text_list = []
 	if len(old_nodes) == 0:
-		return []
+		raise Exception("No nodes were provided in arguments.")
 	
 	# for old_node in old_nodes:
 	# 	old_text_list.append(old_node.text)
