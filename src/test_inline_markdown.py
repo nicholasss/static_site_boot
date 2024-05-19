@@ -6,17 +6,20 @@ from inline_markdown import *
 class TestInline_Markdown(unittest.TestCase):
 	def test_split_nodes_delimit(self):
 		node_array1 = [TextNode("Pizza is looking **GOOD** tonight.", text_type_text)]
-		processed_array = split_nodes_delimiter(node_array1, "**", text_type_bold)
+		processed_array = split_nodes_delimiter(node_array1, "**", text_type_bold)g
 		
 		self.assertEqual(processed_array[0], TextNode("Pizza is looking ", text_type_text))
 		self.assertEqual(processed_array[1], TextNode("GOOD", text_type_bold))
 		self.assertEqual(processed_array[2], TextNode(" tonight.", text_type_text))
 
 		node_arr2 = [TextNode("This *was* a big pizza! So many **olives!**", text_type_text)]
-		proc_arr2 = split_nodes_delimiter(node_arr2, "*", text_type_italic)
+		proc_arr2 = split_nodes_delimiter(node_arr2, "**", text_type_bold)
 
-		self.assertEqual(proc_arr2[1], TextNode("was", text_type_italic))
-		self.assertEqual(proc_arr2[2], TextNode("a big pizza! So many **olives!**", text_type_text))
+		print(f"--TESThere-- {proc_arr2}")
+
+		self.assertEqual(proc_arr2[0], TextNode("This *was* a big pizza! So many ", text_type_text))
+		self.assertEqual(proc_arr2[1], TextNode("olives!", text_type_bold))
+
 
 
 

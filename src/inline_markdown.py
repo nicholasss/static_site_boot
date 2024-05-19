@@ -84,10 +84,11 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 			else:
 				processed_words.append(word)
 
-		# Add the remainder of processed_string to processed word and append to new_nodes
 	
+	# Add the remainder of processed_string to processed word and append to new_nodes
 	processed_string = " ".join(processed_words)
-	new_nodes.append(TextNode(" " + processed_string, text_type_text))
+	if not processed_string == "":
+		new_nodes.append(TextNode(" " + processed_string, text_type_text))
 	
 	# print(f" --final_nodes-- {new_nodes}")
 	return new_nodes
