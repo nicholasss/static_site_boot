@@ -3,6 +3,16 @@
 from re import findall
 from textnode import *
 
+# '*' -> text_type_italic
+def delimiter_to_text(delimiter: str) -> str:
+	if "**" == delimiter:
+		return text_type_bold
+	elif "*" == delimiter:
+		return text_type_italic
+	elif "`" == delimiter:
+		return text_type_code
+	else:
+		return text_type_text
 
 # Extract Markdown Images
 # Returns list of tuples with alt text and image urls
@@ -39,10 +49,10 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 			new_nodes.append(old_node)
 			continue
 
-		# If the TextNode is not text_type, then add as is.
-		if old_node.type != text_type_text or old_node.type != text_type_image or old_node.type != text_type_link:
-			new_nodes.append(old_node)
-			continue
+		# # If the TextNode is not text_type, then add as is.
+		# if old_node.text_type != text_type_text or old_node.text_type != text_type_image or old_node.type != text_type_link:
+		# 	new_nodes.append(old_node)
+		# 	continue
 
 		words = old_node.text.split()
 		for word in words:
@@ -50,6 +60,13 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 			# print(f" --DELIMITER-- \"{delimiter}\"")
 
 			if delimiter in word:
+				# print(f" --WORD-BF-PROC_WORDS-- \"{word}\"")
+				if len(processed_words) != 0:
+					# print(f" --PROC_WORDS-- {processed_words}")
+					processed_string = " ".join(processed_words)
+					new_nodes.append(TextNode(processed_string + " ", text_type_text))
+					processed_words = []
+
 				# Ensuring the delmiter closes
 				begin_delimit_found: bool = delimiter in word[:2]
 				end_delimit_found: bool = delimiter in  word[-2:]
@@ -57,12 +74,6 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 					print(f" --DELIMIT TEST-- {begin_delimit_found}, {end_delimit_found} in {word} with delimiter: {delimiter}")
 					raise Exception("Invalid Markdown, formatted section not closed.")
 				
-				# print(f" --WORD-BF-PROC_WORDS-- \"{word}\"")
-				if len(processed_words) != 0:
-					# print(f" --PROC_WORDS-- {processed_words}")
-					processed_string = " ".join(processed_words)
-					new_nodes.append(TextNode(processed_string + " ", text_type_text))
-					processed_words = []
 				
 				# print(f" --WORD-BF-PROC_WORDS-- \"{word}\" in \"{processed_words}\"")
 				processed_words.append(word.lstrip(delimiter).rstrip(delimiter))
@@ -184,16 +195,10 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 	partial_proc_node = split_nodes_images(raw_node)
 	partial_proc_node = split_nodes_link(partial_proc_node)
 
+	# go through each option and pull out each
 	for delimiter in textnode_delimiters:
-
-		if delimiter == '**':
-			delimiter_type = text_type_bold
-		elif delimiter == '*':
-			delimiter_type = text_type_italic
-		elif delimiter == '`':
-			delimiter_type = text_type_code
-
-		partial_proc_node = split_nodes_delimiter(partial_proc_node, delimiter, delimiter_type)
+		delimiter_text = delimiter_to_text(delimiter)
+		partial_proc_node = split_nodes_delimiter(partial_proc_node, delimiter, delimiter_text)
 
 
 	final_nodes = partial_proc_node
