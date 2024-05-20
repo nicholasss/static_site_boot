@@ -70,6 +70,7 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 				begin_delimit_found: bool = delimiter in word[:2]
 				end_delimit_found: bool = delimiter in  word[-2:]
 				if not ( begin_delimit_found and end_delimit_found ):
+					# TODO  multi-part i.e. **bolded word**
 					print(f" --DELIMIT TEST-- {begin_delimit_found}, {end_delimit_found} in {word} with delimiter: {delimiter}")
 					raise Exception("Invalid Markdown, formatted section not closed.")
 				
