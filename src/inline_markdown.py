@@ -49,10 +49,9 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 			new_nodes.append(old_node)
 			continue
 
-		# # If the TextNode is not text_type, then add as is.
-		# if old_node.text_type != text_type_text or old_node.text_type != text_type_image or old_node.type != text_type_link:
-		# 	new_nodes.append(old_node)
-		# 	continue
+		if old_node.text_type != text_type and old_node.text_type != text_type_text:
+			new_nodes.append(old_node)
+			continue
 
 		words = old_node.text.split()
 		for word in words:
@@ -84,11 +83,13 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 			else:
 				processed_words.append(word)
 
-	
-	# Add the remainder of processed_string to processed word and append to new_nodes
-	processed_string = " ".join(processed_words)
-	if not processed_string == "":
-		new_nodes.append(TextNode(" " + processed_string, text_type_text))
+			# Clearing and appending buffers (processed_words/string)
+			if words[-1] == word: # on last word of node
+				processed_string = " ".join(processed_words)
+				if old_nodes[-1] != old_node: # not on last node in list
+					processed_string += " "
+				if not processed_string == "":
+					new_nodes.append(TextNode(" " + processed_string, text_type_text))
 	
 	# print(f" --final_nodes-- {new_nodes}")
 	return new_nodes

@@ -6,7 +6,7 @@ from inline_markdown import *
 class TestInline_Markdown(unittest.TestCase):
 	def test_split_nodes_delimit(self):
 		node_array1 = [TextNode("Pizza is looking **GOOD** tonight.", text_type_text)]
-		processed_array = split_nodes_delimiter(node_array1, "**", text_type_bold)g
+		processed_array = split_nodes_delimiter(node_array1, "**", text_type_bold)
 		
 		self.assertEqual(processed_array[0], TextNode("Pizza is looking ", text_type_text))
 		self.assertEqual(processed_array[1], TextNode("GOOD", text_type_bold))
@@ -14,11 +14,15 @@ class TestInline_Markdown(unittest.TestCase):
 
 		node_arr2 = [TextNode("This *was* a big pizza! So many **olives!**", text_type_text)]
 		proc_arr2 = split_nodes_delimiter(node_arr2, "**", text_type_bold)
+		proc_arr2 = split_nodes_delimiter(proc_arr2, "*", text_type_italic)
 
-		print(f"--TESThere-- {proc_arr2}")
+		# print(f"--TESThere-- {proc_arr2}")
 
-		self.assertEqual(proc_arr2[0], TextNode("This *was* a big pizza! So many ", text_type_text))
-		self.assertEqual(proc_arr2[1], TextNode("olives!", text_type_bold))
+		self.assertEqual(proc_arr2[0], TextNode("This ", text_type_text))
+		self.assertEqual(proc_arr2[1], TextNode("was", text_type_italic))
+		self.assertEqual(proc_arr2[2], TextNode(" a big pizza! So many ", text_type_text))
+		self.assertEqual(proc_arr2[3], TextNode("olives!", text_type_bold))
+
 
 
 
@@ -67,12 +71,12 @@ class TestInline_Markdown(unittest.TestCase):
 
 	def test_text_to_textnodes(self):
 		
-		print(" == TEST 1")
+		# print(" == TEST 1")
 		text1 = "This is a **bolded** word with an *italicized* word."
 		nodes1 = text_to_textnodes(text1)
 		print(nodes1)
 
-		print(" == TEST 2")
+		# print(" == TEST 2")
 		text2 = "This is `code block` and a link to [Apple Homepage](https://apple.com)"
 		nodes2 = text_to_textnodes(text2)
 		print(nodes2)
