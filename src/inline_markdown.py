@@ -53,6 +53,10 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 			new_nodes.append(old_node)
 			continue
 
+		begin_delimiter_found = False
+		end_delimiter_found = False
+		in_delimiter_section = False
+
 		words = old_node.text.split()
 		for word in words:
 			# print(f" --WORD-- \"{word}\"")
@@ -67,11 +71,16 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 					processed_words = []
 
 				# Ensuring the delmiter closes
-				begin_delimit_found: bool = delimiter in word[:2]
-				end_delimit_found: bool = delimiter in  word[-2:]
-				if not ( begin_delimit_found and end_delimit_found ):
+				begin_delimiter_found = delimiter in word[:2]
+				end_delimiter_found = delimiter in  word[-2:]
+				if not ( begin_delimiter_found and end_delimiter_found ):
+
+					# index of current word in word list
+					# if words after the current word have the end delimiter (end of string)
+					# then set in_delimiter_section to true
+
 					# TODO  multi-part i.e. **bolded word**
-					print(f" --DELIMIT TEST-- {begin_delimit_found}, {end_delimit_found} in {word} with delimiter: {delimiter}")
+					print(f" --DELIMIT TEST-- {begin_delimiter_found}, {end_delimiter_found} in {word} with delimiter: {delimiter}")
 					raise Exception("Invalid Markdown, formatted section not closed.")
 				
 				
