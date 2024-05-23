@@ -44,21 +44,23 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 			# print(f" --NOT TEXTNODE-- {old_node}")
 			new_nodes.append(old_node)
 			continue
-
+		
+		# If its not text_type, then add as is
 		if old_node.text_type != text_type_text:
 			new_nodes.append(old_node)
 			continue
 
 		sections = old_node.text.split(delimiter)
 
+		# Splitting on delimit to use modulo math
 		if len(sections) % 2 == 0:
 			print(f"Sections length is {len(sections)}")
 			raise Exception("Invalid Markdown, formatted section not closed.")
 
 		for i in range(len(sections)):
 			if sections[i] == "":
-				print("Empty Section found.")
 				continue
+
 			if i % 2 == 0:
 				new_nodes.append(TextNode(sections[i], text_type_text))
 			else:
@@ -73,7 +75,6 @@ def split_nodes_images(old_nodes):
 
 	if len(old_nodes) == 0:
 		raise Exception("Empty list was provided")
-	
 	
 	img_node_list = list(map(lambda node: extract_markdown_image(node.text), old_nodes))[0]
 
