@@ -23,10 +23,6 @@ class TestInline_Markdown(unittest.TestCase):
 		self.assertEqual(proc_arr2[2], TextNode(" a big pizza! So many ", text_type_text))
 		self.assertEqual(proc_arr2[3], TextNode("olives!", text_type_bold))
 
-
-
-
-
 	def test_extract_md(self):
 		url_md = "Look at this new site: [Apple Inc.](https://www.apple.com)!"
 		urls_md = "Here [Facebook](https://www.facebook.com) and [Instagram](https://www.instagram.com) will be merging."
@@ -74,9 +70,9 @@ class TestInline_Markdown(unittest.TestCase):
 		# print(" == TEST 1")
 		text1 = "This is a **bolded** word with an *italicized* word."
 		nodes1 = text_to_textnodes(text1)
-		print(nodes1)
+		self.assertEqual(nodes1, [TextNode("This is a ", text_type_text, None), TextNode("bolded", text_type_bold, None), TextNode(" word with an ", text_type_text, None), TextNode("italicized", text_type_italic, None), TextNode(" word.", text_type_text, None)])
 
 		# print(" == TEST 2")
 		text2 = "This is `code block` and a link to [Apple Homepage](https://apple.com)"
 		nodes2 = text_to_textnodes(text2)
-		print(nodes2)
+		self.assertEqual(nodes2, [TextNode("This is ", text_type_text, None), TextNode("code block", text_type_code, None), TextNode(" and a link to ", text_type_text, None), TextNode("Apple Homepage", text_type_link, "https://apple.com")])
