@@ -34,14 +34,10 @@ def extract_markdown_url(text):
 def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: str):
 	if len(old_nodes) == 0:
 		return []
-	
-	if delimiter == None or text_type == text_type_text:
-		return old_nodes
 
 	new_nodes = []
 	for old_node in old_nodes:
 		# print(f" --OLD_NODE-- {old_node}")
-		processed_words = []
 
 		# If its not a TextNode, then add as is.
 		if type(old_node) is not TextNode:
@@ -49,60 +45,27 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
 			new_nodes.append(old_node)
 			continue
 
-		if old_node.text_type != text_type and old_node.text_type != text_type_text:
+		if old_node.text_type != text_type_text:
 			new_nodes.append(old_node)
 			continue
 
-		begin_delimiter_found = False
-		end_delimiter_found = False
-		in_delimiter_section = False
+		sections = old_node.text.split(delimiter)
 
-		words = old_node.text.split()
-		for word in words:
-			# print(f" --WORD-- \"{word}\"")
-			# print(f" --DELIMITER-- \"{delimiter}\"")
+		if len(sections) % 2 == 0:
+			print(f"Sections length is {len(sections)}")
+			raise Exception("Invalid Markdown, formatted section not closed.")
 
-			if delimiter in word:
-				# print(f" --WORD-BF-PROC_WORDS-- \"{word}\"")
-				if len(processed_words) != 0:
-					# print(f" --PROC_WORDS-- {processed_words}")
-					processed_string = " ".join(processed_words)
-					new_nodes.append(TextNode(processed_string + " ", text_type_text))
-					processed_words = []
-
-				# Ensuring the delmiter closes
-				begin_delimiter_found = delimiter in word[:2]
-				end_delimiter_found = delimiter in  word[-2:]
-				if not ( begin_delimiter_found and end_delimiter_found ):
-
-					# index of current word in word list
-					# if words after the current word have the end delimiter (end of string)
-					# then set in_delimiter_section to true
-
-					# TODO  multi-part i.e. **bolded word**
-					print(f" --DELIMIT TEST-- {begin_delimiter_found}, {end_delimiter_found} in {word} with delimiter: {delimiter}")
-					raise Exception("Invalid Markdown, formatted section not closed.")
-				
-				
-				# print(f" --WORD-BF-PROC_WORDS-- \"{word}\" in \"{processed_words}\"")
-				processed_words.append(word.lstrip(delimiter).rstrip(delimiter))
-				processed_string = " ".join(processed_words)
-				new_nodes.append(TextNode(processed_string, text_type))
-				processed_words = []
-				
+		for i in range(len(sections)):
+			if sections[i] == "":
+				print("Empty Section found.")
+				continue
+			if i % 2 == 0:
+				new_nodes.append(TextNode(sections[i], text_type_text))
 			else:
-				processed_words.append(word)
+				new_nodes.append(TextNode(sections[i], text_type))
 
-			# Clearing and appending buffers (processed_words/string)
-			if words[-1] == word: # on last word of node
-				processed_string = " ".join(processed_words)
-				if old_nodes[-1] != old_node: # not on last node in list
-					processed_string += " "
-				if not processed_string == "":
-					new_nodes.append(TextNode(" " + processed_string, text_type_text))
-	
-	# print(f" --final_nodes-- {new_nodes}")
 	return new_nodes
+
 
 # similar to split_nodes_delimiter - except always will operate on image types
 def split_nodes_images(old_nodes):
