@@ -161,9 +161,6 @@ def split_nodes_link(old_nodes):
 	return final_nodes
 	
 def text_to_textnodes(text: str) -> list[TextNode]:
-
-	print(text)
-
 	raw_node = [TextNode(text, text_type_text)]
 
 	# First look for link objects
@@ -174,7 +171,6 @@ def text_to_textnodes(text: str) -> list[TextNode]:
 	for delimiter in textnode_delimiters:
 		delimiter_text = delimiter_to_text(delimiter)
 		partial_proc_node = split_nodes_delimiter(partial_proc_node, delimiter, delimiter_text)
-
 
 	final_nodes = partial_proc_node
  
