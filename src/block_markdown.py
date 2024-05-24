@@ -30,13 +30,13 @@ def block_to_block_type(block: str) -> str:
 		lines = block.split("\n")
 	else:
 		lines = [block]
+	num_lines = len(lines)
 
 	# Code Blocks or ```\n```
-	if "```" in line[:3] and "```" in line[-3:]:
+	if "```" in block[:3] and "```" in block[-3:]:
 		return bt_code
 	
 	# Quote Block or "> " on all lines
-	num_lines = len(lines)
 	quote_count = 0
 	for line in lines:
 		if "> " in line[:2]:
@@ -49,5 +49,5 @@ def block_to_block_type(block: str) -> str:
 		# returns on first heading line found
 		if "# " in line[:7]:
 			return bt_heading
-		
+		git
 	
