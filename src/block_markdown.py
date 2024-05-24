@@ -30,11 +30,24 @@ def block_to_block_type(block: str) -> str:
 		lines = block.split("\n")
 	else:
 		lines = [block]
+
+	# Code Blocks or ```\n```
+	if "```" in line[:3] and "```" in line[-3:]:
+		return bt_code
 	
+	# Quote Block or "> " on all lines
+	num_lines = len(lines)
+	quote_count = 0
 	for line in lines:
-		
-		# Headings must have 1-6 hashes and a trailing space
+		if "> " in line[:2]:
+			quote_count += 1
+	if num_lines == quote_count:
+		return bt_quote
+	
+	# Headings must have 1-6 hashes and a trailing space
+	for line in lines:
+		# returns on first heading line found
 		if "# " in line[:7]:
-			return bt_heading
+			return bt_headinggi
 		
-		# Code Blocks or ```\n```
+	
