@@ -50,4 +50,12 @@ def block_to_block_type(block: str) -> str:
 		if "# " in line[:7]:
 			return bt_heading
 		
+	# Unordered list or "* ", "- "
+	ou_line_count = 0
+	for line in lines:
+		if "- " in line or "* " in line:
+			ou_line_count += 1
+	if ou_line_count == num_lines:
+		return bt_ulist
+	
 	
