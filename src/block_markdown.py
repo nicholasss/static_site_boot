@@ -51,11 +51,23 @@ def block_to_block_type(block: str) -> str:
 			return bt_heading
 		
 	# Unordered list or "* ", "- "
-	ou_line_count = 0
+	u_line_count = 0
 	for line in lines:
 		if "- " in line or "* " in line:
-			ou_line_count += 1
-	if ou_line_count == num_lines:
+			u_line_count += 1
+	if u_line_count == num_lines:
 		return bt_ulist
 	
-	
+	# Ordered list
+	o_list_count = 0
+	if "1" == block[:1]:
+		current_num = 1
+		for line in lines:
+			if current_num == line[:1]: # Is incrementing by one
+				o_list_count += 1
+			current_num += 1
+		if o_list_count == num_lines:
+			return bt_olist
+		
+	print(f"\n --DEBUG-- Normal Paragraph\n{block}\n======\n")
+	return bt_paragraph
