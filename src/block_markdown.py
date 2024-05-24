@@ -48,6 +48,6 @@ def block_to_block_type(block: str) -> str:
 	for line in lines:
 		# returns on first heading line found
 		if "# " in line[:7]:
-			return bt_headinggi
+			return bt_heading
 		
 	
