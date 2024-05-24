@@ -49,5 +49,5 @@ def block_to_block_type(block: str) -> str:
 		# returns on first heading line found
 		if "# " in line[:7]:
 			return bt_heading
-		git
+		
 	
