@@ -32,6 +32,8 @@ def block_to_block_type(block: str) -> str:
 		lines = [block]
 	num_lines = len(lines)
 
+	print(f"--CURRENT--\n{lines}\n")
+
 	# Code Blocks or ```\n```
 	if "```" in block[:3] and "```" in block[-3:]:
 		return bt_code
@@ -56,6 +58,7 @@ def block_to_block_type(block: str) -> str:
 		if "- " in line or "* " in line:
 			u_line_count += 1
 	if u_line_count == num_lines:
+		print(f" -+- found unordered list")
 		return bt_ulist
 	
 	# Ordered list
