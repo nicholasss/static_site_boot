@@ -7,7 +7,7 @@ bt_heading = "heading"
 bt_code = "code"
 bt_quote = "quote"
 bt_ulist = "unordered_list"
-bt_olist = "orderd_list"
+bt_olist = "ordered_list"
 
 def markdown_to_blocks(text: str) -> list[str]:
 	"""This function takes in a large text and will return each block as a seperate string type in a list"""
