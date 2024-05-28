@@ -18,35 +18,47 @@ This is the same paragraph on a new line
 			'* This is a list\n* with items'
 		])
 
-	def test_block_to_block_type(self):
-		markdown2 = """This is **bolded** paragraph
+	def test_btb_inline_bold(self):
+		md = "This is **bolded** paragraph."
+		bt = block_to_block_type(md)
+		self.assertEqual(bt, bt_paragraph)
 
-This is another paragraph with *italic* text and `code` here
-This is the same paragraph on a new line
+	def test_btb_inline_italic(self):
+		md = "This is another paragraph with *italic* text."
+		bt = block_to_block_type(md)
+		self.assertEqual(bt, bt_paragraph)
 
-* This is a list
-* with items
+	def test_btb_inline_code(self):
+		md = "This here is `code` for you."
+		bt = block_to_block_type(md)
+		self.assertEqual(bt, bt_paragraph)
 
-1. first line
-2. second line
+	def test_btb_code_block(self):
+		md = """```new code here wow!
+```"""
+		bt = block_to_block_type(md)
+		self.assertEqual(bt, bt_code)
 
-```new code here wow!
-```
+	def test_btb_plain(self):
+		md = "Here is some plain text."
+		bt = block_to_block_type(md)
+		self.assertEqual(bt, bt_paragraph)
+	
+	def test_btb_ulist(self):
+		md = """* This is an unordered list
+* There are a few things here"""
+		bt = block_to_block_type(md)
+		self.assertEqual(bt, bt_ulist)
 
-> This is,
+	def test_btb_olist(self):
+		md = """1. Here is an ordered list
+2. There are a specific number of things"""
+		bt = block_to_block_type(md)
+		self.assertEqual(bt, bt_olist)
+
+	def test_btb_quote_block(self):
+		md = """> This is,
 > a quote section
-> wow!
-"""
-		blocks2 = markdown2.split("\n\n")
-		print(blocks2)
-		block_types2 = list(map(lambda block: block_to_block_type(block), blocks2))
-		self.assertEqual(block_types2,[
-			'paragraph',
-			'paragraph',
-			'unordered_list',
-			'ordered_list',
-			'code',
-			'quote'
-		])
-
-		# Currently block_to_block_types is going through every single letter instead of each individual block
+> wow!"""
+		bt = block_to_block_type(md)
+		self.assertEqual(bt, bt_quote)
