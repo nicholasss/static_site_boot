@@ -31,8 +31,7 @@ def block_to_block_type(block: str) -> str:
 	else:
 		lines = [block]
 	num_lines = len(lines)
-
-	print(f"--CURRENT--\n{lines}\n")
+	# print(f"--CURRENT--\n{lines}\n")
 
 	# Code Blocks or ```\n```
 	if "```" in block[:3] and "```" in block[-3:]:
@@ -55,10 +54,10 @@ def block_to_block_type(block: str) -> str:
 	# Unordered list or "* ", "- "
 	u_line_count = 0
 	for line in lines:
-		if "- " in line or "* " in line:
+		if "- " in line[:2] or "* " in line[:2]:
 			u_line_count += 1
 	if u_line_count == num_lines:
-		print(f" -+- found unordered list")
+		# print(f" -+- found unordered list")
 		return bt_ulist
 	
 	# Ordered list
@@ -66,11 +65,11 @@ def block_to_block_type(block: str) -> str:
 	if "1" == block[:1]:
 		current_num = 1
 		for line in lines:
-			if current_num == line[:1]: # Is incrementing by one
+			if current_num == int(line[:1]): # Is incrementing by one
 				o_list_count += 1
 			current_num += 1
 		if o_list_count == num_lines:
 			return bt_olist
 		
-	print(f"\n --DEBUG-- Normal Paragraph\n{block}\n======\n")
+	# print(f"\n --DEBUG-- Normal Paragraph\n{block}\n======\n")
 	return bt_paragraph
