@@ -16,6 +16,12 @@ textnode_delimiters = [
 	"`"
 ]
 
+textnode_delimiters_text = [
+	text_type_bold,
+	text_type_italic,
+	text_type_code
+]
+
 class TextNode:
 	
 	def __init__(self, text, text_type, url=None) -> None:
