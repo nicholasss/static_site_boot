@@ -23,6 +23,11 @@ This is the same paragraph on a new line
 		bt = block_to_block_type(md)
 		self.assertEqual(bt, bt_paragraph)
 
+	def test_btb_bold_block(self):
+		md = "**This is a bolded paragraph.**"
+		bt = block_to_block_type(md)
+		self.assertEqual(bt, bt_paragraph)
+
 	def test_btb_inline_italic(self):
 		md = "This is another paragraph with *italic* text."
 		bt = block_to_block_type(md)
