@@ -6,6 +6,8 @@ from block_markdown import *
 from htmlnode import *
 
 
+DEBUG_PRINT = True
+
 # ================================
 # Block Types to HTML Node
 # ================================
@@ -27,6 +29,11 @@ from htmlnode import *
 # ================================
 
 def markdown_to_html_node(markdown: str):
-	# Ensure to include top level <div></div>
+	# Ensure to include top level <div></div> 
+
+	markdown_blocks = markdown_to_blocks(markdown)
+	if DEBUG_PRINT:
+		print(markdown_blocks)
+
 	pass
 
