@@ -1,6 +1,7 @@
 # Ch 4 Part 3: Block to HTML
 
 # Take a given block of markdown and convert it to an HTML Node
+# This is where all of the previous parts come together to create HTML
 
 from block_markdown import *
 from htmlnode import *
