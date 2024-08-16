@@ -27,8 +27,10 @@ def heading_block(block_string: str):
 
 	if DEBUG_PRINT:
 		print(heading_raw)
-	
-	return f'<h{heading_count}>{heading_raw}</{heading_count}>'
+
+	heading_node = HTMLNode(f'h{heading_count}', heading_raw)
+	return heading_node
+
 
 # Code - ' ```code``` `
 
@@ -46,23 +48,19 @@ def heading_block(block_string: str):
 # ================================
 
 def markdown_to_html_node(markdown: str):
-	# Ensure to include top level <div></div> 
 
 	markdown_blocks = markdown_to_blocks(markdown)
 	if DEBUG_PRINT:
 		print(markdown_blocks)
 
-	html_concat = []
+	html_list = []
 	for block in markdown_blocks:
 		block_type = block_to_block_type(block)
 
 		if block_type == bt_heading:
-			html_concat.append(heading_block(block))
-	
-	html_concat_len = len(html_concat)
-	html_concat[0] = "<div>" + html_concat[0]
-	html = '\n'.join(html_concat)
-	html += "</div>"
+			html_list.append(heading_block(block))
+
+	html = HTMLNode("div", children=html_list)
 
 	return html
 

@@ -9,18 +9,28 @@ class HTMLNode:
 		self.props = props
 
 	def to_html(self):
-		tag = self.tag
-		value = self.value
+		tag_html = self.tag
 
+		value_html = self.value
+		if value_html == None:
+			value_html = ""
+
+		# needs to go through a list
 		children = self.children
+		children_html = ""
 		if children is None:
-			children = ""
+			children_html = ""
+		else:
+			for child in self.children:
+				children_html += child.to_html()
 
-		props = self.props_to_html()
-		if len(props) > 0:
-			props = " " + props
+		props_html = self.props_to_html()
+		if props_html == None:
+			props_html = ""
+		elif len(props_html) > 0:
+			props_html = " " + props_html
   
-		return f"<{tag}{props}>{value}{children}</{tag}>"
+		return f"<{tag_html}{props_html}>{value_html}{children_html}</{tag_html}>"
 	
 	def props_to_html(self) -> str:
 		html = ""
