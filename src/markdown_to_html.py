@@ -18,7 +18,7 @@ def heading_block(block_string: str):
 	heading_count = 0
 	for char in block_string:
 		if char == "#":
-			heading_count =+ 1
+			heading_count += 1
 		if char == " ":
 			break
 
