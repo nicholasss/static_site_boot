@@ -27,3 +27,7 @@ class TestMarkdown_To_Html(unittest.TestCase):
 		heading_three = "### Heading Three"
 		html_three = "<div><h3>Heading Three</h3></div>"
 		self.assertEqual(markdown_to_html_node(heading_three).to_html(), html_three)
+
+		heading_five = "##### Heading Five"
+		html_five = "<div><h5>Heading Five</h5></div>"
+		self.assertEqual(markdown_to_html_node(heading_five).to_html(), html_five)
