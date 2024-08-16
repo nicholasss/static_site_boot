@@ -24,10 +24,6 @@ def heading_block(block_string: str):
 
 	string_start = heading_count + 1
 	heading_raw = block_string[string_start:]
-
-	if DEBUG_PRINT:
-		print(heading_raw)
-
 	heading_node = HTMLNode(f'h{heading_count}', heading_raw)
 	return heading_node
 
@@ -39,6 +35,14 @@ def code_block(code_string: str):
 	return code_node
 
 # Quote - '> quote' on multiple lines
+def quote_block(quote_string: str):
+	quote_lines = quote_string.splitlines()
+	raw_lines = []
+	for line in quote_lines:
+		raw_lines.append(line[2:])
+	lines = "\n".join(raw_lines)
+	quote_node = HTMLNode('blockquote', lines)
+	return quote_node
 
 # Unordered List - '- ' or '* ' on multiple lines
 
@@ -66,6 +70,9 @@ def markdown_to_html_node(markdown: str):
 
 		elif block_type == bt_code:
 			html_list.append(code_block(block))
+
+		elif block_type == bt_quote:
+			html_list.append(quote_block(block))
 
 	html = HTMLNode("div", children=html_list)
 

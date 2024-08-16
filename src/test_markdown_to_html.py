@@ -43,3 +43,7 @@ Line three```"""
 Line two
 Line three</code></div>"""
 		self.assertEqual(markdown_to_html_node(code_two).to_html(), html_code_two)
+
+		quote_one = "> Quote section"
+		html_quote_one = "<div><blockquote>Quote section</blockquote></div>"
+		self.assertEqual(markdown_to_html_node(quote_one).to_html(), html_quote_one)
