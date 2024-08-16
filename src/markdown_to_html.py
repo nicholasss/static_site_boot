@@ -33,6 +33,10 @@ def heading_block(block_string: str):
 
 
 # Code - ' ```code``` `
+def code_block(code_string: str):
+	code_raw = code_string.strip("```")
+	code_node = HTMLNode('code', code_raw)
+	return code_node
 
 # Quote - '> quote' on multiple lines
 
@@ -59,6 +63,9 @@ def markdown_to_html_node(markdown: str):
 
 		if block_type == bt_heading:
 			html_list.append(heading_block(block))
+
+		elif block_type == bt_code:
+			html_list.append(code_block(block))
 
 	html = HTMLNode("div", children=html_list)
 
