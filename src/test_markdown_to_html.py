@@ -32,6 +32,7 @@ class TestMarkdown_To_Html(unittest.TestCase):
 		html_heading_five = "<div><h5>Heading Five</h5></div>"
 		self.assertEqual(markdown_to_html_node(heading_five).to_html(), html_heading_five)
 
+	def test_code(self):
 		code_one = "```Code block```"
 		html_code_one = "<div><code>Code block</code></div>"
 		self.assertEqual(markdown_to_html_node(code_one).to_html(), html_code_one)
@@ -44,6 +45,15 @@ Line two
 Line three</code></div>"""
 		self.assertEqual(markdown_to_html_node(code_two).to_html(), html_code_two)
 
+	def test_quote(self):
 		quote_one = "> Quote section"
 		html_quote_one = "<div><blockquote>Quote section</blockquote></div>"
 		self.assertEqual(markdown_to_html_node(quote_one).to_html(), html_quote_one)
+
+		quote_two = """> Large quote block
+> Second line
+> Third line"""
+		html_quote_two = """<div><blockquote>Large quote block
+Second line
+Third line</blockquote></div>"""
+		self.assertEqual(markdown_to_html_node(quote_two).to_html(), html_quote_two)
