@@ -36,6 +36,7 @@ def code_block(code_string: str):
 
 # Quote - '> quote' on multiple lines
 def quote_block(quote_string: str):
+	# TODO: convert to functional logic
 	quote_lines = quote_string.splitlines()
 	raw_lines = []
 	for line in quote_lines:
@@ -45,6 +46,14 @@ def quote_block(quote_string: str):
 	return quote_node
 
 # Unordered List - '- ' or '* ' on multiple lines
+def ul_block(ul_string: str):
+	ul_lines = ul_string.splitlines()
+	raw_lines = []
+	for line in ul_lines:
+		raw_lines.append(line[2:])
+	lines = "\n".join(raw_lines)
+	ul_node = HTMLNode('unordered_list', lines)
+	return ul_node
 
 # Ordered List - '1. ' on multiple lines (ascending)
 
