@@ -5,6 +5,7 @@
 
 from block_markdown import *
 from htmlnode import *
+from inline_markdown import *
 
 
 DEBUG_PRINT = False
@@ -55,7 +56,11 @@ def ul_block(ul_string: str):
 	
 	node_list = []
 	for line in raw_lines:
-		node_list.append(HTMLNode('li', line))
+		line_textnodes = text_to_textnodes(line)
+		nodes = []
+		for node in line_textnodes:
+			nodes.append(text_node_to_html_node(node))
+		node_list.append(HTMLNode('li', value='', children=nodes))
 
 	ul_node = HTMLNode('ul', children=node_list)
 	return ul_node
@@ -69,7 +74,11 @@ def ol_block(ol_string: str):
 	
 	node_list = []
 	for line in raw_lines:
-		node_list.append(HTMLNode('li', line))
+		line_textnodes = text_to_textnodes(line)
+		nodes = []
+		for node in line_textnodes:
+			nodes.append(text_node_to_html_node(node))
+		node_list.append(HTMLNode('li', value='', children=nodes))
 	
 	ol_node = HTMLNode('ol', children=node_list)
 	return ol_node
@@ -77,8 +86,14 @@ def ol_block(ol_string: str):
 # Paragraph
 # <p></p>
 def paragraph_block(para_string: str):
-	# TODO introduce textnodes as an intermediate representation
-	return HTMLNode('p', para_string)
+	# text to textnodes?
+	
+	text_nodes = text_to_textnodes(para_string)
+	html_nodes = []
+	for node in text_nodes:
+		html_nodes.append(text_node_to_html_node(node))
+
+	return HTMLNode('p', value='', children=html_nodes)
 
 
 # ================================
