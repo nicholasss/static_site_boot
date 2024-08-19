@@ -7,7 +7,7 @@ import shutil
 import regex
 
 
-DEBUG_PRINT = True
+DEBUG_PRINT = False
 PUBLIC_PATH = os.path.abspath(os.path.join(os.curdir, 'public'))
 STATIC_PATH = os.path.abspath(os.path.join(os.curdir, 'static'))
 CONTENT_PATH = os.path.abspath(os.path.join(os.curdir, 'content/index.md'))

@@ -7,7 +7,7 @@ from block_markdown import *
 from htmlnode import *
 
 
-DEBUG_PRINT = True
+DEBUG_PRINT = False
 
 # ================================
 # Block Types to HTML Node
@@ -77,6 +77,7 @@ def ol_block(ol_string: str):
 # Paragraph
 # <p></p>
 def paragraph_block(para_string: str):
+	# TODO introduce textnodes as an intermediate representation
 	return HTMLNode('p', para_string)
 
 
