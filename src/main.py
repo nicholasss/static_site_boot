@@ -1,8 +1,10 @@
 from textnode import TextNode
 from htmlnode import HTMLNode
+from markdown_to_html import *
 
 import os
 import shutil
+import regex
 
 
 DEBUG_PRINT = True
@@ -24,6 +26,40 @@ def extract_title(markdown: str):
 				print("Heading found:", raw_line)
 			return raw_line
 	raise Exception("Header title not found")
+
+def generate_page(from_path: str, template_path: str, dest_path: str):
+	print(f'Generating page from {from_path} to {dest_path} using {template_path}')
+
+	if not os.path.isfile(from_path) or os.path.isfile(template_path):
+		raise Exception("Template or Markdown content is missing.")
+	
+	if not os.path.abspath(dest_path):
+		raise Exception("Destination not an absolute path")
+	
+	raw_markdown_file = open(from_path, 'r')
+	raw_markdown = raw_markdown_file.read()
+	raw_markdown_file.close()
+
+	original_template_file = open(template_path, 'r')
+	original_template = original_template_file.read()
+	original_template_file.close()
+
+	user_html_content = markdown_to_html_node(raw_markdown).to_html()
+	content_title = extract_title(raw_markdown)
+
+	html_content = original_template.replace("{{ Title }}", content_title)
+	html_content = html_content.replace("{{ Content }}", user_html_content)
+
+	if not os.path.exists(os.path.dirname(dest_path)):
+		print("Creating destination directory")
+		os.mkdir(dest_path)
+	
+	destination_file = open(dest_path, 'w')
+	destination_file.write(html_content)
+	destination_file.close()
+
+
+####################################################
 
 def clean_copy(src_dir: str, dst_dir: str):
 	delete_directory(dst_dir)
