@@ -19,7 +19,7 @@ def extract_title(markdown: str):
 	lines = markdown.splitlines()
 	for line in lines:
 		if line[:2] == '# ':
-			raw_line = line[:2]
+			raw_line = line[2:]
 			if DEBUG_PRINT:
 				print("Heading found:", raw_line)
 			return raw_line
