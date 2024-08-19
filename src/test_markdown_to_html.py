@@ -57,3 +57,8 @@ Line three</code></div>"""
 Second line
 Third line</blockquote></div>"""
 		self.assertEqual(markdown_to_html_node(quote_two).to_html(), html_quote_two)
+
+	def test_unordered_list(self):
+		ul_list_one = "* List of one"
+		html_ul_list_one = "<div><ul><li>List of one</li></ul></div>"
+		self.assertEqual(markdown_to_html_node(ul_list_one).to_html(), html_ul_list_one)

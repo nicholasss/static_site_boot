@@ -13,6 +13,8 @@ DEBUG_PRINT = True
 # Block Types to HTML Node
 # ================================
 
+	# TODO: convert to functional logic
+
 # Heading - '# ' --> '###### '
 def heading_block(block_string: str):
 	heading_count = 0
@@ -36,7 +38,6 @@ def code_block(code_string: str):
 
 # Quote - '> quote' on multiple lines
 def quote_block(quote_string: str):
-	# TODO: convert to functional logic
 	quote_lines = quote_string.splitlines()
 	raw_lines = []
 	for line in quote_lines:
@@ -51,8 +52,12 @@ def ul_block(ul_string: str):
 	raw_lines = []
 	for line in ul_lines:
 		raw_lines.append(line[2:])
-	lines = "\n".join(raw_lines)
-	ul_node = HTMLNode('unordered_list', lines)
+	
+	node_list = []
+	for line in raw_lines:
+		node_list.append(HTMLNode('li', line))
+
+	ul_node = HTMLNode('ul', children=node_list)
 	return ul_node
 
 # Ordered List - '1. ' on multiple lines (ascending)
@@ -82,6 +87,9 @@ def markdown_to_html_node(markdown: str):
 
 		elif block_type == bt_quote:
 			html_list.append(quote_block(block))
+
+		elif block_type == bt_ulist:
+			html_list.append(ul_block(block))
 
 	html = HTMLNode("div", children=html_list)
 
