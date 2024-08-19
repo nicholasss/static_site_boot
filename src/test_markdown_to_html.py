@@ -63,7 +63,17 @@ Third line</blockquote></div>"""
 		html_ul_list_one = "<div><ul><li>List of one</li></ul></div>"
 		self.assertEqual(markdown_to_html_node(ul_list_one).to_html(), html_ul_list_one)
 
+		ul_list_two = """* Many list
+* Another item"""
+		html_ul_list_two = """<div><ul><li>Many list</li><li>Another item</li></ul></div>"""
+		self.assertEqual(markdown_to_html_node(ul_list_two).to_html(), html_ul_list_two)
+
 	def test_orderded_list(self):
 		ol_list_one = "1. List of one"
 		html_ol_list_one = "<div><ol><li>List of one</li></ol></div>"
 		self.assertEqual(markdown_to_html_node(ol_list_one).to_html(), html_ol_list_one)
+
+		ol_list_two = """1. Long list
+2. Another item"""
+		html_ol_list_two = """<div><ol><li>Long list</li><li>Another item</li></ol></div>"""
+		self.assertEqual(markdown_to_html_node(ol_list_two).to_html(), html_ol_list_two)
