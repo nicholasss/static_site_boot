@@ -6,13 +6,11 @@ import shutil
 
 
 DEBUG_PRINT = True
-PUBLIC_PATH = os.path.abspath(os.path.join('public', os.pardir))
-STATIC_PATH = os.path.abspath(os.path.join('static', os.pardir))
+PUBLIC_PATH = os.path.abspath(os.path.join(os.curdir, 'public'))
+STATIC_PATH = os.path.abspath(os.path.join(os.curdir, 'static'))
 
 
 def main():
-	print("Hello, World!")
-
 	clean_dir(PUBLIC_PATH)
 
 
@@ -23,10 +21,10 @@ def clean_dir(dir_path: str):
 		if DEBUG_PRINT:
 			print(f'Failed to clean % {dir_path}')
 	
-	print("Are you sure you want the following dir cleaned?")
+	print("Are you sure you want the following dir deleted?")
 	print(dir_path)
 	answer = input("(y/n) % ")
-	if answer is 'y':
+	if answer == 'y':
 		shutil.rmtree(dir_path)
 		print(f'Cleaned the path % {dir_path}')
 	else:
