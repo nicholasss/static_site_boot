@@ -22,9 +22,15 @@ def clean_dir(dir_path: str):
 		print("Error path does not exist!")
 		if DEBUG_PRINT:
 			print(f'Failed to clean % {dir_path}')
-
-	# shutil.rmtree(dir_path)
-	print(f'Cleaned the path % {dir_path}')
+	
+	print("Are you sure you want the following dir cleaned?")
+	print(dir_path)
+	answer = input("(y/n) % ")
+	if answer is 'y':
+		shutil.rmtree(dir_path)
+		print(f'Cleaned the path % {dir_path}')
+	else:
+		print("Did not clean the path.")
 
 
 if __name__ == "__main__":
