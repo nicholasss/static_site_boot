@@ -14,6 +14,17 @@ def main():
 	clean_copy(STATIC_PATH, PUBLIC_PATH)
 
 
+def extract_title(markdown: str):
+	# pull the '# ' line from the page and return only the raw text
+	lines = markdown.splitlines()
+	for line in lines:
+		if line[:2] == '# ':
+			raw_line = line[:2]
+			if DEBUG_PRINT:
+				print("Heading found:", raw_line)
+			return raw_line
+	raise Exception("Header title not found")
+
 def clean_copy(src_dir: str, dst_dir: str):
 	delete_directory(dst_dir)
 	recursive_copy(src_dir, dst_dir)
