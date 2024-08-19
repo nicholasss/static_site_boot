@@ -10,7 +10,7 @@ import regex
 DEBUG_PRINT = False
 PUBLIC_PATH = os.path.abspath(os.path.join(os.curdir, 'public'))
 STATIC_PATH = os.path.abspath(os.path.join(os.curdir, 'static'))
-CONTENT_PATH = os.path.abspath(os.path.join(os.curdir, 'content/index.md'))
+CONTENT_PATH = os.path.abspath(os.path.join(os.curdir, 'content'))
 TEMPLATE_PATH = os.path.abspath(os.path.join(os.curdir, 'template.html'))
 
 
@@ -20,7 +20,7 @@ def main():
 	clean_copy(STATIC_PATH, PUBLIC_PATH)
 
 	# generate page and write to public folder
-	generate_page(CONTENT_PATH, TEMPLATE_PATH, PUBLIC_PATH)
+	generate_pages_recursive(CONTENT_PATH, TEMPLATE_PATH, PUBLIC_PATH)
 
 
 def extract_title(markdown: str):
@@ -34,17 +34,66 @@ def extract_title(markdown: str):
 			return raw_line
 	raise Exception("Header title not found")
 
+def generate_pages_recursive(dir_path_content: str, template_path: str, dest_dir_path: str):
+	print(f'Generating page from \'{dir_path_content}\' to \'{dest_dir_path}\' using the template \'{template_path}\'\n')
+
+	if not os.path.isdir(dir_path_content):
+		raise Exception("Content directory cannot be found.")
+	
+	if not os.path.isfile(template_path):
+		raise Exception("Template file cannot be found")
+
+	if not os.path.isdir(dest_dir_path):
+		raise Exception("Destination directory cannot be found")
+
+	dir_contents = os.listdir(dir_path_content)
+	for dir_item in dir_contents:
+		abs_dir_item_path = os.path.join(dir_path_content, dir_item)
+		if os.path.isdir(abs_dir_item_path):
+			# content_path = os.path.join(dir_path_content, dir_item)
+			dest_path = os.path.join(dest_dir_path, dir_item)
+
+			os.mkdir(dest_path)
+			print(f'Made new folder \n %%% {dest_path}')
+			generate_pages_recursive(abs_dir_item_path, template_path, dest_path)
+
+		elif os.path.isfile(abs_dir_item_path):
+			# raw_markdown_path = os.path.join(dir_path_content, dir_item)
+			raw_markdown_file = open(abs_dir_item_path, 'r')
+			raw_markdown = raw_markdown_file.read()
+			raw_markdown_file.close()
+
+			original_template_file = open(template_path, 'r')
+			original_template = original_template_file.read()
+			original_template_file.close()
+
+			user_html_content = markdown_to_html_node(raw_markdown).to_html()
+			content_title = extract_title(raw_markdown)
+			print(f'Generated page for {content_title}')
+
+			html_content = original_template.replace("{{ Title }}", content_title)
+			html_content = html_content.replace("{{ Content }}", user_html_content)
+
+			new_file_name = dir_item.replace('.md', '.html')
+			new_file_path = os.path.join(dir_path_content, new_file_name)
+			new_file = open(new_file_path, 'w')
+			new_file.write(html_content)
+			new_file.close()
+
+	print("Generation of static site is complete.\n")
+
+
 def generate_page(from_path: str, template_path: str, dest_path: str):
 	print(f'Generating page from {from_path} to {dest_path} using {template_path}')
 
-	if not os.path.isfile(from_path):
-		raise Exception("Markdown content is missing.")
+	if not os.path.isdir(from_path):
+		raise Exception("Content directory cannot be found.")
 	
 	if not os.path.isfile(template_path):
-		raise Exception("Template is missing")
+		raise Exception("Template file cannot be found")
 
 	if not os.path.isdir(dest_path):
-		raise Exception("Destination not an absolute path")
+		raise Exception("Destination directory cannot be found")
 	
 	raw_markdown_file = open(from_path, 'r')
 	raw_markdown = raw_markdown_file.read()
