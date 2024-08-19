@@ -23,7 +23,7 @@ def clean_dir(dir_path: str):
 		if DEBUG_PRINT:
 			print(f'Failed to clean % {dir_path}')
 
-	shutil.rmtree(dir_path)
+	# shutil.rmtree(dir_path)
 	print(f'Cleaned the path % {dir_path}')
 
 
