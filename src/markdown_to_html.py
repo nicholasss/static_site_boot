@@ -75,6 +75,9 @@ def ol_block(ol_string: str):
 	return ol_node
 
 # Paragraph
+# <p></p>
+def paragraph_block(para_string: str):
+	return HTMLNode('p', para_string)
 
 
 # ================================
@@ -105,6 +108,9 @@ def markdown_to_html_node(markdown: str):
 
 		elif block_type == bt_olist:
 			html_list.append(ol_block(block))
+
+		elif block_type == bt_paragraph:
+			html_list.append(paragraph_block(block))
 
 	html = HTMLNode("div", children=html_list)
 

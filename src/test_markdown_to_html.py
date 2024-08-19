@@ -77,3 +77,14 @@ Third line</blockquote></div>"""
 2. Another item"""
 		html_ol_list_two = """<div><ol><li>Long list</li><li>Another item</li></ol></div>"""
 		self.assertEqual(markdown_to_html_node(ol_list_two).to_html(), html_ol_list_two)
+
+	def test_paragraph(self):
+		para_one = "This is just a paragraph"
+		html_para_one = "<div><p>This is just a paragraph</p></div>"
+		self.assertEqual(markdown_to_html_node(para_one).to_html(), html_para_one)
+
+		para_two = """This is a longer paragraph about nothing
+And here is another line"""
+		html_para_two = """<div><p>This is a longer paragraph about nothing
+And here is another line</p></div>"""
+		self.assertEqual(markdown_to_html_node(para_two).to_html(), html_para_two)
