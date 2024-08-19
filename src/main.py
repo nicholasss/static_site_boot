@@ -15,11 +15,10 @@ def main():
 
 
 def clean_copy(src_dir: str, dst_dir: str):
-	clean_dir(dst_dir)
+	delete_directory(dst_dir)
 	recursive_copy(src_dir, dst_dir)
 
-# deletes the provided path
-def clean_dir(dir_path: str):
+def delete_directory(dir_path: str):
 	if not os.path.exists(dir_path):
 		print("Error path does not exist!")
 		if DEBUG_PRINT:
@@ -42,11 +41,12 @@ def recursive_copy(src_dir: str, dst_dir: str):
 
 	dir_ls = os.listdir(src_dir)
 	for item in dir_ls:
-		if os.path.isdir(item):
+		item_path = os.path.join(src_dir, item)
+		if os.path.isdir(item_path):
 			new_src_dir = os.path.join(src_dir, item)
 			new_dst_dir = os.path.join(dst_dir, item)
 			recursive_copy(new_src_dir, new_dst_dir)
-		elif os.path.isfile(item):
+		elif os.path.isfile(item_path):
 			src_file = os.path.join(src_dir, item)
 			dst_file = os.path.join(dst_dir, item)
 			print(f'Copying file % {src_file} to {dst_file}')
