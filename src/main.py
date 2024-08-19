@@ -20,6 +20,7 @@ def clean_dir(dir_path: str):
 		print("Error path does not exist!")
 		if DEBUG_PRINT:
 			print(f'Failed to clean % {dir_path}')
+		return
 	
 	print("Are you sure you want the following dir deleted?")
 	print(dir_path)
