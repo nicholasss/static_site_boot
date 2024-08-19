@@ -10,7 +10,8 @@ import regex
 DEBUG_PRINT = True
 PUBLIC_PATH = os.path.abspath(os.path.join(os.curdir, 'public'))
 STATIC_PATH = os.path.abspath(os.path.join(os.curdir, 'static'))
-TEMPLATE_PATH = os.path.abspath(os.path.join(os.curdir), 'template.html')
+CONTENT_PATH = os.path.abspath(os.path.join(os.curdir, 'content/index.md'))
+TEMPLATE_PATH = os.path.abspath(os.path.join(os.curdir, 'template.html'))
 
 
 def main():
@@ -19,7 +20,7 @@ def main():
 	clean_copy(STATIC_PATH, PUBLIC_PATH)
 
 	# generate page and write to public folder
-	generate_page(STATIC_PATH, TEMPLATE_PATH, PUBLIC_PATH)
+	generate_page(CONTENT_PATH, TEMPLATE_PATH, PUBLIC_PATH)
 
 
 def extract_title(markdown: str):
@@ -36,10 +37,13 @@ def extract_title(markdown: str):
 def generate_page(from_path: str, template_path: str, dest_path: str):
 	print(f'Generating page from {from_path} to {dest_path} using {template_path}')
 
-	if not os.path.isfile(from_path) or os.path.isfile(template_path):
-		raise Exception("Template or Markdown content is missing.")
+	if not os.path.isfile(from_path):
+		raise Exception("Markdown content is missing.")
 	
-	if not os.path.abspath(dest_path):
+	if not os.path.isfile(template_path):
+		raise Exception("Template is missing")
+
+	if not os.path.isdir(dest_path):
 		raise Exception("Destination not an absolute path")
 	
 	raw_markdown_file = open(from_path, 'r')
@@ -60,7 +64,10 @@ def generate_page(from_path: str, template_path: str, dest_path: str):
 		print("Creating destination directory")
 		os.mkdir(dest_path)
 	
-	destination_file = open(dest_path, 'w')
+	file_name = os.path.basename(from_path)
+	file_name = file_name.replace(".md", ".html")
+	destination_file_path = os.path.join(dest_path, file_name)
+	destination_file = open(destination_file_path, 'w')
 	destination_file.write(html_content)
 	destination_file.close()
 
