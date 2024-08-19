@@ -62,3 +62,8 @@ Third line</blockquote></div>"""
 		ul_list_one = "* List of one"
 		html_ul_list_one = "<div><ul><li>List of one</li></ul></div>"
 		self.assertEqual(markdown_to_html_node(ul_list_one).to_html(), html_ul_list_one)
+
+	def test_orderded_list(self):
+		ol_list_one = "1. List of one"
+		html_ol_list_one = "<div><ol><li>List of one</li></ol></div>"
+		self.assertEqual(markdown_to_html_node(ol_list_one).to_html(), html_ol_list_one)

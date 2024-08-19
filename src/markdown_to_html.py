@@ -61,6 +61,18 @@ def ul_block(ul_string: str):
 	return ul_node
 
 # Ordered List - '1. ' on multiple lines (ascending)
+def ol_block(ol_string: str):
+	ol_lines = ol_string.splitlines()
+	raw_lines = []
+	for line in ol_lines:
+		raw_lines.append(line[3:])
+	
+	node_list = []
+	for line in raw_lines:
+		node_list.append(HTMLNode('li', line))
+	
+	ol_node = HTMLNode('ol', children=node_list)
+	return ol_node
 
 # Paragraph
 
@@ -90,6 +102,9 @@ def markdown_to_html_node(markdown: str):
 
 		elif block_type == bt_ulist:
 			html_list.append(ul_block(block))
+
+		elif block_type == bt_olist:
+			html_list.append(ol_block(block))
 
 	html = HTMLNode("div", children=html_list)
 
