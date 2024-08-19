@@ -10,10 +10,16 @@ import regex
 DEBUG_PRINT = True
 PUBLIC_PATH = os.path.abspath(os.path.join(os.curdir, 'public'))
 STATIC_PATH = os.path.abspath(os.path.join(os.curdir, 'static'))
+TEMPLATE_PATH = os.path.abspath(os.path.join(os.curdir), 'template.html')
 
 
 def main():
+
+	# deletes public folder and copies static content
 	clean_copy(STATIC_PATH, PUBLIC_PATH)
+
+	# generate page and write to public folder
+	generate_page(STATIC_PATH, TEMPLATE_PATH, PUBLIC_PATH)
 
 
 def extract_title(markdown: str):
