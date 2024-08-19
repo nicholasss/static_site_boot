@@ -25,14 +25,8 @@ def delete_directory(dir_path: str):
 			print(f'Failed to clean % {dir_path}')
 		return
 	
-	print("Are you sure you want the following dir deleted?")
-	print(dir_path)
-	answer = input("(y/n) % ")
-	if answer == 'y':
-		shutil.rmtree(dir_path)
-		print(f'Cleaned the path % {dir_path}')
-	else:
-		print("Did not clean the path.")
+	shutil.rmtree(dir_path)
+	print(f'Deleted the path % {dir_path}')
 
 def recursive_copy(src_dir: str, dst_dir: str):
 	if not os.path.exists(dst_dir):
