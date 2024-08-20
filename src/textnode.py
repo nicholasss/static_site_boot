@@ -52,7 +52,8 @@ def text_node_to_html_node(text_node: TextNode) -> LeafNode:
 	elif text_node.text_type == text_type_link:
 		return LeafNode("a", text_node.text, {"href": f"{text_node.url}"})
 	elif text_node.text_type == text_type_image:
-		return LeafNode("img", props={"src": f"{text_node.url}", "alt": "Default Alt Text"})
+		return LeafNode("img", value='', props={"src": f"{text_node.url}", "alt": f"{text_node.text}"})
+		# added empty value to see if that will fix the issue
 
 	else:
 		raise ValueError("Unable to convert to HTMLNode Class.")

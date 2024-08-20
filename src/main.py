@@ -75,7 +75,7 @@ def generate_pages_recursive(dir_path_content: str, template_path: str, dest_dir
 			html_content = html_content.replace("{{ Content }}", user_html_content)
 
 			new_file_name = dir_item.replace('.md', '.html')
-			new_file_path = os.path.join(dir_path_content, new_file_name)
+			new_file_path = os.path.join(dest_dir_path, new_file_name)
 			new_file = open(new_file_path, 'w')
 			new_file.write(html_content)
 			new_file.close()
